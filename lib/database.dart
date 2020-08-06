@@ -25,7 +25,7 @@ class DatabaseHelper {
 
   void _onCreate(Database db, int version) async {
     await db.execute(
-        "CREATE TABLE players (id INTEGER PRIMARY KEY, name TEXT)"
+        "CREATE TABLE players (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT)"
     );
   }
 
@@ -40,7 +40,21 @@ class DatabaseHelper {
     return players;
   }
 
-  Future<int> savePlayer(Player player) async {
+  Future<int> addPlayer(String name) async {
+    var dbClient = await db;
+    int res = 0;
+    try {
+      res = await dbClient.insert("players", <String, dynamic>{
+        'name': name
+      });
+    } catch(e) {
+      print("Error in addPlayer: ${e}");
+      throw new Error();
+    }
+    return res;
+  }
+
+  Future<int> addPlayerFromModel(Player player) async {
     var dbClient = await db;
     int res = 0;
     try {

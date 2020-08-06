@@ -2,6 +2,7 @@ import 'dart:collection';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:kesakisat_mobile/services/player.dart';
 
 void main() {
   runApp(MyApp());
@@ -31,6 +32,9 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+
+  final PlayerService playerService = PlayerService();
+
   int _selectedSport;
   int _tabIndex = 0;
   String person;
@@ -69,8 +73,6 @@ class _MyHomePageState extends State<MyHomePage> {
     "Jamaal",
     "Robbyn",
   ];
-
-  HashMap<String, HashMap<String, String>> scoresMap = new HashMap();
 
   Widget getPeople() {
     Color peopleColor = Colors.yellowAccent[500];
@@ -112,7 +114,10 @@ class _MyHomePageState extends State<MyHomePage> {
                             child: InkWell(
                               splashColor: Colors.red,
                               child: SizedBox(width: 130, height: 60, child: Icon(Icons.person_add)),
-                              onTap: () => { print("Add player: ${newPlayerValue}") },
+                              onTap: () => {
+                                playerService.addPlayer(newPlayerValue),
+                                print("Add player: ${newPlayerValue}"),
+                              },
                             )
                           )
                         )
