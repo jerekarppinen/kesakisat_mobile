@@ -2,6 +2,7 @@ import 'dart:collection';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:kesakisat_mobile/models/player.dart';
 import 'package:kesakisat_mobile/services/player.dart';
 
 void main() {
@@ -77,6 +78,109 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget getPeople() {
     Color peopleColor = Colors.yellowAccent[500];
 
+
+    return FutureBuilder<List<Player>>(
+      future: playerService.fetchPlayers(),
+      builder: (context, snapshot) {
+        if (!snapshot.hasData) return Text("Lataa....");
+        List<Player> players = snapshot.data;
+
+        if (players.length == 0) {
+          return Center(
+            child: Text("Ei pelaajia"),
+          );
+        }
+
+        print("players: ${players[0].name}");
+
+        return ListView.separated(
+          shrinkWrap: true,
+          itemCount: players.length + 1,
+          separatorBuilder: (BuildContext context, int index) => Divider(),
+            itemBuilder: (BuildContext context, int index) {
+              if (index == 0) {
+                return Column(
+                    children: [
+                      Center(
+                        child: Text(sports[_selectedSport],
+                            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30)),
+                      ),
+                      Row(
+                          children: [
+                            Expanded(
+                                child: TextField(
+                                  decoration: InputDecoration(
+                                    border: const OutlineInputBorder(
+                                        borderSide: const BorderSide(color: Colors.teal)
+                                    ),
+                                    hintText: "Uusi pelaaja",
+                                  ),
+                                  onChanged: (value) => {
+                                    print("New player value: ${value}"),
+                                    setState(() => {
+                                      newPlayerValue = value
+                                    })
+                                  },
+                                )
+                            ),
+                            (
+                                ClipRect(
+                                    child: Material(
+                                        color: Colors.white,
+                                        child: InkWell(
+                                          splashColor: Colors.red,
+                                          child: SizedBox(width: 130, height: 60, child: Icon(Icons.person_add)),
+                                          onTap: () => {
+                                            playerService.addPlayer(newPlayerValue),
+                                            print("Add player: ${newPlayerValue}"),
+                                          },
+                                        )
+                                    )
+                                )
+                            )
+                          ]
+                      )
+                    ]
+                );
+              }
+              var player = players[index - 1];
+              return InkWell(
+                child: Row(
+                  children: [
+                    Container(
+                      margin: const EdgeInsets.only(left: 20.0, top: 20.0),
+                      height: 50,
+                      color: peopleColor,
+                      child: Text(
+                        player.name,
+                        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                      ),
+                    ),
+                    Spacer(),
+                    Expanded(
+                        child: Container(
+                            height: 50,
+                            child: TextField(
+                              decoration: InputDecoration(
+                                  border: const OutlineInputBorder(
+                                      borderSide: const BorderSide(color: Colors.teal)
+                                  ),
+                                  hintText: 'Tulos'),
+                              onChanged: (value) => {
+                                sport = sports[_selectedSport],
+                                print(
+                                    "selectedSport: ${sport}, player: ${player.name} value: ${value}")
+                              },
+                            )))
+                  ],
+                ),
+                onTap: () => {print("${people[index - 1]} tapped")},
+              );
+            }
+        );
+      }
+    );
+
     return ListView.separated(
         shrinkWrap: true,
         itemCount: people.length + 1,
@@ -125,7 +229,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     ]
                   )
                 ]
-            ) ;
+            );
           }
           return InkWell(
             child: Row(
