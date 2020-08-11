@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kesakisat_mobile/models/sport.dart';
 
-import 'blocs/food_bloc.dart';
+import 'blocs/sport_bloc.dart';
 import 'db/database_provider.dart';
 import 'events/delete_sport.dart';
 import 'events/set_sports.dart';
@@ -27,7 +27,7 @@ class _SportListState extends State<SportList> {
     );
   }
 
-  showFoodDialog(BuildContext context, Sport sport, int index) {
+  showSportDialog(BuildContext context, Sport sport, int index) {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
@@ -80,7 +80,7 @@ class _SportListState extends State<SportList> {
                       "Tyyppi: ${sport.currentSportsValue == 1 ? 'Pisteet / Pituus' : 'Aika'}",
                       style: TextStyle(fontSize: 20),
                     ),
-                    onTap: () => showFoodDialog(context, sport, index));
+                    onTap: () => showSportDialog(context, sport, index));
               },
               itemCount: sportList.length,
               separatorBuilder: (BuildContext context, int index) => Divider(color: Colors.black),

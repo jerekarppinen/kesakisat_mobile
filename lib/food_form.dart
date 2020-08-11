@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'blocs/food_bloc.dart';
+import 'blocs/sport_bloc.dart';
 import 'db/database_provider.dart';
 import 'events/add_sport.dart';
 import 'events/update_sport.dart';
