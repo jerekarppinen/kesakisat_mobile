@@ -16,6 +16,7 @@ class PlayersBloc implements BlocBase {
 
   PlayersBloc() {
     getPlayers();
+    print("getplayers");
     _addPlayerController.stream.listen(_handleAddPlayer);
   }
 
