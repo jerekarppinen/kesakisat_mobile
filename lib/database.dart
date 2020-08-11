@@ -48,7 +48,7 @@ class DatabaseHelper {
         'name': name
       });
     } catch(e) {
-      print("Error in addPlayer: ${e}");
+      print("Error in addPlayer: $e");
       throw new Error();
     }
     return res;

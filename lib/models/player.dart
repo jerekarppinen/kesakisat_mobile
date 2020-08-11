@@ -11,4 +11,14 @@ class Player {
     };
     return event;
   }
+
+  factory Player.fromJson(Map<String, dynamic> json) => new Player(
+    id: json['id'],
+    name: json['name']
+  );
+
+  Map<String, dynamic> toJson() => {
+    'id': this.id,
+    'name': this.name
+  };
 }

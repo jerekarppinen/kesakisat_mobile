@@ -1,9 +1,8 @@
-import 'dart:collection';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:kesakisat_mobile/blocs/bloc_provider.dart';
+import 'package:kesakisat_mobile/blocs/players_bloc.dart';
 import 'package:kesakisat_mobile/models/player.dart';
-import 'package:kesakisat_mobile/services/player.dart';
 
 void main() {
   runApp(MyApp());
@@ -13,13 +12,17 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        title: 'Olympics',
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-          //visualDensity: VisualDensity.adaptivePlatformDensity,
-        ),
-        home: MyHomePage());
+    return BlocProvider(
+        bloc: PlayersBloc(),
+        child: MaterialApp(
+            title: 'Olympics',
+            theme: ThemeData(
+              primarySwatch: Colors.blue,
+              //visualDensity: VisualDensity.adaptivePlatformDensity,
+            ),
+            home:  MyHomePage(title: "Jee")
+        )
+    );
   }
 }
 
@@ -34,7 +37,16 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
 
-  final PlayerService playerService = PlayerService();
+  PlayersBloc _playersBloc;
+
+  @override
+  void initState() {
+    super.initState();
+
+    // Thanks to the BlocProvider providing this page with the NotesBloc,
+    // we can simply use this to retrieve it.
+    _playersBloc = BlocProvider.of<PlayersBloc>(context);
+  }
 
   int _selectedSport;
   int _tabIndex = 0;
@@ -79,8 +91,8 @@ class _MyHomePageState extends State<MyHomePage> {
     Color peopleColor = Colors.yellowAccent[500];
 
 
-    return FutureBuilder<List<Player>>(
-      future: playerService.fetchPlayers(),
+    return StreamBuilder<List<Player>>(
+      stream: _playersBloc.players,
       builder: (context, snapshot) {
         if (!snapshot.hasData) return Text("Lataa....");
         List<Player> players = snapshot.data;
@@ -90,8 +102,6 @@ class _MyHomePageState extends State<MyHomePage> {
             child: Text("Ei pelaajia"),
           );
         }
-
-        print("players: ${players[0].name}");
 
         return ListView.separated(
           shrinkWrap: true,
@@ -116,7 +126,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                     hintText: "Uusi pelaaja",
                                   ),
                                   onChanged: (value) => {
-                                    print("New player value: ${value}"),
+                                    print("New player value: $value"),
                                     setState(() => {
                                       newPlayerValue = value
                                     })
@@ -131,8 +141,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                           splashColor: Colors.red,
                                           child: SizedBox(width: 130, height: 60, child: Icon(Icons.person_add)),
                                           onTap: () => {
-                                            playerService.addPlayer(newPlayerValue),
-                                            print("Add player: ${newPlayerValue}"),
+                                            print("Add player: $newPlayerValue"),
                                           },
                                         )
                                     )
@@ -169,7 +178,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               onChanged: (value) => {
                                 sport = sports[_selectedSport],
                                 print(
-                                    "selectedSport: ${sport}, player: ${player.name} value: ${value}")
+                                    "selectedSport: $sport, player: ${player.name} value: $value")
                               },
                             )))
                   ],
@@ -180,91 +189,6 @@ class _MyHomePageState extends State<MyHomePage> {
         );
       }
     );
-
-    return ListView.separated(
-        shrinkWrap: true,
-        itemCount: people.length + 1,
-        separatorBuilder: (BuildContext context, int index) => Divider(),
-        itemBuilder: (BuildContext context, int index) {
-          if (index == 0) {
-            return Column(
-                children: [
-                  Center(
-                    child: Text(sports[_selectedSport],
-                        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30)),
-                  ),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: TextField(
-                          decoration: InputDecoration(
-                            border: const OutlineInputBorder(
-                              borderSide: const BorderSide(color: Colors.teal)
-                            ),
-                              hintText: "Uusi pelaaja",
-                          ),
-                          onChanged: (value) => {
-                            print("New player value: ${value}"),
-                            setState(() => {
-                              newPlayerValue = value
-                            })
-                          },
-                        )
-                      ),
-                      (
-                        ClipRect(
-                          child: Material(
-                            color: Colors.white,
-                            child: InkWell(
-                              splashColor: Colors.red,
-                              child: SizedBox(width: 130, height: 60, child: Icon(Icons.person_add)),
-                              onTap: () => {
-                                playerService.addPlayer(newPlayerValue),
-                                print("Add player: ${newPlayerValue}"),
-                              },
-                            )
-                          )
-                        )
-                      )
-                    ]
-                  )
-                ]
-            );
-          }
-          return InkWell(
-            child: Row(
-              children: [
-                Container(
-                  margin: const EdgeInsets.only(left: 20.0, top: 20.0),
-                  height: 50,
-                  color: peopleColor,
-                  child: Text(
-                    people[index - 1],
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-                  ),
-                ),
-                Spacer(),
-                Expanded(
-                    child: Container(
-                        height: 50,
-                        child: TextField(
-                          decoration: InputDecoration(
-                              border: const OutlineInputBorder(
-                                borderSide: const BorderSide(color: Colors.teal)
-                              ),
-                              hintText: 'Tulos'),
-                          onChanged: (value) => {
-                            person = people[index - 1],
-                            sport = sports[_selectedSport],
-                            print(
-                                "selectedSport: ${sport}, person: ${person} value: ${value}")
-                          },
-                        )))
-              ],
-            ),
-            onTap: () => {print("${people[index - 1]} tapped")},
-          );
-        });
   }
 
   Widget getSports() {
@@ -287,8 +211,6 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: Center(child: Text(textString))),
             onTap: () {
               setState(() => {_selectedSport = index, _tabIndex = 1});
-              Scaffold.of(context).showSnackBar(
-                  SnackBar(content: Text("${sports[index]} valittu!")));
             });
       },
     );
