@@ -6,7 +6,7 @@ import 'blocs/sport_bloc.dart';
 import 'db/database_provider.dart';
 import 'events/delete_sport.dart';
 import 'events/set_sports.dart';
-import 'food_form.dart';
+import 'sport_form.dart';
 import 'models/sport.dart';
 
 class SportList extends StatefulWidget {

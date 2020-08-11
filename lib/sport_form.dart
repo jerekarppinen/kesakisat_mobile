@@ -84,12 +84,84 @@ class FoodFormState extends State<SportForm> {
     }
   }
 
+  Widget editSport() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: <Widget>[
+        RaisedButton(
+          child: Text(
+            "Päivitä",
+            style: TextStyle(color: Colors.blue, fontSize: 16),
+          ),
+          onPressed: () {
+            if (!_formKey.currentState.validate()) {
+              print("form");
+              return;
+            }
+
+            _formKey.currentState.save();
+
+            Sport sport = Sport(
+              name: _name,
+              currentSportsValue: _currentSportsValue,
+            );
+
+            DatabaseProvider.db.update(widget.sport).then(
+                  (storedFood) => BlocProvider.of<SportBloc>(context).add(
+                UpdateSport(widget.sportIndex, sport),
+              ),
+            );
+
+            Navigator.pop(context);
+          },
+        ),
+        RaisedButton(
+          child: Text(
+            "Peruuta",
+            style: TextStyle(color: Colors.red, fontSize: 16),
+          ),
+          onPressed: () => Navigator.pop(context),
+        ),
+      ],
+    );
+  }
+
+  Widget addSport() {
+    return RaisedButton(
+      child: Text(
+        'Lisää',
+        style: TextStyle(color: Colors.blue, fontSize: 16),
+      ),
+      onPressed: () {
+        if (!_formKey.currentState.validate()) {
+          return;
+        }
+
+        _formKey.currentState.save();
+
+        Sport sport = Sport(
+          name: _name,
+          currentSportsValue: _currentSportsValue,
+        );
+
+        DatabaseProvider.db.insert(sport).then(
+              (storedFood) => BlocProvider.of<SportBloc>(context).add(
+            AddSport(storedFood),
+          ),
+        );
+
+        Navigator.pop(context);
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text("Lisää laji")),
-      body: Container(
-        margin: EdgeInsets.all(24),
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.only(top: 120, left: 20, right: 20),
+        //margin: EdgeInsets.all(24),
         child: Form(
           key: _formKey,
           child: Column(
@@ -100,71 +172,8 @@ class FoodFormState extends State<SportForm> {
               _buildIsVegan(),
               SizedBox(height: 20),
               widget.sport == null
-                  ? RaisedButton(
-                child: Text(
-                  'Lisää',
-                  style: TextStyle(color: Colors.blue, fontSize: 16),
-                ),
-                onPressed: () {
-                  if (!_formKey.currentState.validate()) {
-                    return;
-                  }
-
-                  _formKey.currentState.save();
-
-                  Sport sport = Sport(
-                    name: _name,
-                    currentSportsValue: _currentSportsValue,
-                  );
-
-                  DatabaseProvider.db.insert(sport).then(
-                        (storedFood) => BlocProvider.of<SportBloc>(context).add(
-                      AddSport(storedFood),
-                    ),
-                  );
-
-                  Navigator.pop(context);
-                },
-              )
-                  : Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-                  RaisedButton(
-                    child: Text(
-                      "Päivitä",
-                      style: TextStyle(color: Colors.blue, fontSize: 16),
-                    ),
-                    onPressed: () {
-                      if (!_formKey.currentState.validate()) {
-                        print("form");
-                        return;
-                      }
-
-                      _formKey.currentState.save();
-
-                      Sport sport = Sport(
-                        name: _name,
-                        currentSportsValue: _currentSportsValue,
-                      );
-
-                      DatabaseProvider.db.update(widget.sport).then(
-                            (storedFood) => BlocProvider.of<SportBloc>(context).add(
-                          UpdateSport(widget.sportIndex, sport),
-                        ),
-                      );
-
-                      Navigator.pop(context);
-                    },
-                  ),
-                  RaisedButton(
-                    child: Text(
-                      "Peruuta",
-                      style: TextStyle(color: Colors.red, fontSize: 16),
-                    ),
-                    onPressed: () => Navigator.pop(context),
-                  ),
-                ],
-              ),
+                  ? addSport()
+                  : editSport(),
             ],
           ),
         ),

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'sport_list.dart';
 
-class sportListScreen extends StatelessWidget {
+class SportListScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
