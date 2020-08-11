@@ -107,7 +107,7 @@ class FoodFormState extends State<SportForm> {
             );
 
             DatabaseProvider.db.update(widget.sport).then(
-                  (storedFood) => BlocProvider.of<SportBloc>(context).add(
+                  (storedSport) => BlocProvider.of<SportBloc>(context).add(
                 UpdateSport(widget.sportIndex, sport),
               ),
             );
@@ -145,8 +145,8 @@ class FoodFormState extends State<SportForm> {
         );
 
         DatabaseProvider.db.insert(sport).then(
-              (storedFood) => BlocProvider.of<SportBloc>(context).add(
-            AddSport(storedFood),
+              (storedSport) => BlocProvider.of<SportBloc>(context).add(
+            AddSport(storedSport),
           ),
         );
 
