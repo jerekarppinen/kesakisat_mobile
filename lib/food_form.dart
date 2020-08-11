@@ -3,20 +3,15 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'blocs/food_bloc.dart';
 import 'db/database_provider.dart';
-import 'events/add_food.dart';
-import 'events/update_food.dart';
-import 'models/food.dart';
+import 'events/add_sport.dart';
+import 'events/update_sport.dart';
+import 'models/sport.dart';
 
-enum SportsType {
-  high,
-  low
-}
+class SportForm extends StatefulWidget {
+  final Sport sport;
+  final int sportIndex;
 
-class FoodForm extends StatefulWidget {
-  final Food food;
-  final int foodIndex;
-
-  FoodForm({this.food, this.foodIndex});
+  SportForm({this.sport, this.sportIndex});
 
   @override
   State<StatefulWidget> createState() {
@@ -24,11 +19,23 @@ class FoodForm extends StatefulWidget {
   }
 }
 
-class FoodFormState extends State<FoodForm> {
+class SportsType {
+  final int _key;
+  final String _value;
+
+  SportsType(this._key, this._value);
+}
+
+class FoodFormState extends State<SportForm> {
+
+  int _currentSportsValue = 1;
+
+  final _sportsOptions = [
+    SportsType(1, "high"),
+    SportsType(2, "low"),
+  ];
+
   String _name;
-  String _calories;
-  bool _isVegan = false;
-  SportsType _sportsType = SportsType.high;
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
@@ -54,57 +61,26 @@ class FoodFormState extends State<FoodForm> {
   Widget _buildIsVegan() {
 
     return Column(
-      children: [
-        RadioListTile(
-          title: const Text("Pisteet / Pituus"),
-          value: SportsType.high,
-          groupValue: _sportsType,
-          onChanged: (SportsType value) {
-            setState(() {
-              _sportsType = value;
-            });
-            print("_sportsType: $_sportsType");
-          },
-        ),
-        RadioListTile(
-          title: const Text("Aika"),
-          value: SportsType.low,
-          groupValue: _sportsType,
-          onChanged: (SportsType value) {
-            setState(() {
-              _sportsType = value;
-            });
-            print("_sportsType: $_sportsType");
-          },
-        )
-    ],);
-    return RadioListTile(
-      title: const Text("Pisteet / Pituus"),
-      value: SportsType.high,
-      groupValue: _sportsType,
-      onChanged: (SportsType value) {
-        setState(() {
-          _sportsType = value;
-        });
-      },
+      children: _sportsOptions.map((sportValue) => RadioListTile(
+        groupValue: _currentSportsValue,
+        title: Text(sportValue._value == 'high' ? 'Pisteet / Pituus' : 'Aika'),
+        value: sportValue._key,
+        onChanged: (val) {
+          setState(() {
+            print("val: $val");
+            _currentSportsValue = val;
+          });
+        },
+      )).toList(),
     );
-    /*
-    return SwitchListTile(
-      title: Text("Vegan?", style: TextStyle(fontSize: 20)),
-      value: _isVegan,
-      onChanged: (bool newValue) => setState(() {
-        _isVegan = newValue;
-      }),
-    );*/
   }
 
   @override
   void initState() {
     super.initState();
-    if (widget.food != null) {
-      _name = widget.food.name;
-      _calories = widget.food.calories;
-      _isVegan = widget.food.isVegan;
+    if (widget.sport != null) {
+      _name = widget.sport.name;
+      // _currentSportsValue = widget.sport.;
     }
   }
 
@@ -123,7 +99,7 @@ class FoodFormState extends State<FoodForm> {
               SizedBox(height: 16),
               _buildIsVegan(),
               SizedBox(height: 20),
-              widget.food == null
+              widget.sport == null
                   ? RaisedButton(
                 child: Text(
                   'Lisää',
@@ -136,15 +112,14 @@ class FoodFormState extends State<FoodForm> {
 
                   _formKey.currentState.save();
 
-                  Food food = Food(
+                  Sport sport = Sport(
                     name: _name,
-                    calories: _calories,
-                    isVegan: _isVegan,
+                    currentSportsValue: _currentSportsValue,
                   );
 
-                  DatabaseProvider.db.insert(food).then(
-                        (storedFood) => BlocProvider.of<FoodBloc>(context).add(
-                      AddFood(storedFood),
+                  DatabaseProvider.db.insert(sport).then(
+                        (storedFood) => BlocProvider.of<SportBloc>(context).add(
+                      AddSport(storedFood),
                     ),
                   );
 
@@ -167,15 +142,14 @@ class FoodFormState extends State<FoodForm> {
 
                       _formKey.currentState.save();
 
-                      Food food = Food(
+                      Sport sport = Sport(
                         name: _name,
-                        calories: _calories,
-                        isVegan: _isVegan,
+                        currentSportsValue: _currentSportsValue,
                       );
 
-                      DatabaseProvider.db.update(widget.food).then(
-                            (storedFood) => BlocProvider.of<FoodBloc>(context).add(
-                          UpdateFood(widget.foodIndex, food),
+                      DatabaseProvider.db.update(widget.sport).then(
+                            (storedFood) => BlocProvider.of<SportBloc>(context).add(
+                          UpdateSport(widget.sportIndex, sport),
                         ),
                       );
 

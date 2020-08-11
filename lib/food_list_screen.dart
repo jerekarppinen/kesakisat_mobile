@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-import 'food_list.dart';
+import 'sport_list.dart';
 
-class FoodListScreen extends StatelessWidget {
+class sportListScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text('Coding with Curry')),
-      body: FoodList(),
+      body: SportList(),
     );
   }
 }

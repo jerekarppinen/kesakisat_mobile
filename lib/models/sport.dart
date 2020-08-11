@@ -1,18 +1,16 @@
 import 'package:kesakisat_mobile/db/database_provider.dart';
 
-class Food {
+class Sport {
   int id;
   String name;
-  String calories;
-  bool isVegan;
+  int currentSportsValue;
 
-  Food({this.id, this.name, this.calories, this.isVegan});
+  Sport({this.id, this.name, this.currentSportsValue});
 
   Map<String, dynamic> toMap() {
     var map = <String, dynamic>{
       DatabaseProvider.COLUMN_NAME: name,
-      DatabaseProvider.COLUMN_CALORIES: calories,
-      DatabaseProvider.COLUMN_VEGAN: isVegan ? 1 : 0
+      DatabaseProvider.COLUMN_IS_HIGH: currentSportsValue
     };
 
     if (id != null) {
@@ -22,10 +20,9 @@ class Food {
     return map;
   }
 
-  Food.fromMap(Map<String, dynamic> map) {
+  Sport.fromMap(Map<String, dynamic> map) {
     id = map[DatabaseProvider.COLUMN_ID];
     name = map[DatabaseProvider.COLUMN_NAME];
-    calories = map[DatabaseProvider.COLUMN_CALORIES];
-    isVegan = map[DatabaseProvider.COLUMN_VEGAN] == 1;
+    currentSportsValue = map[DatabaseProvider.COLUMN_IS_HIGH];
   }
 }
