@@ -4,9 +4,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'blocs/sport_bloc.dart';
 import 'sport_list.dart';
 
-void main() => runApp(MyApp());
+void main() => runApp(TabBarDemo());
 
-class MyApp extends StatelessWidget {
+class TabBarDemo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider<SportBloc>(
@@ -14,9 +14,30 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'Sqflite Tutorial',
         theme: ThemeData(
-          primarySwatch: Colors.deepPurple,
+          primarySwatch: Colors.green,
         ),
-        home: SportList(),
+        home: DefaultTabController(
+          length: 3,
+          child: Scaffold(
+            appBar: AppBar(
+              bottom: TabBar(
+                tabs: [
+                  Tab(icon: Icon(Icons.list)),
+                  Tab(icon: Icon(Icons.people)),
+                  Tab(icon: Icon(Icons.flag)),
+                ],
+              ),
+              title: Text('Pankajärvi Olympics'),
+            ),
+            body: TabBarView(
+              children: [
+                SportList(),
+                Icon(Icons.directions_transit),
+                Icon(Icons.directions_bike),
+              ],
+            ),
+          ),
+        ),
       ),
     );
   }
