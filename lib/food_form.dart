@@ -7,6 +7,11 @@ import 'events/add_food.dart';
 import 'events/update_food.dart';
 import 'models/food.dart';
 
+enum SportsType {
+  high,
+  low
+}
+
 class FoodForm extends StatefulWidget {
   final Food food;
   final int foodIndex;
@@ -23,18 +28,19 @@ class FoodFormState extends State<FoodForm> {
   String _name;
   String _calories;
   bool _isVegan = false;
+  SportsType _sportsType = SportsType.high;
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   Widget _buildName() {
     return TextFormField(
       initialValue: _name,
-      decoration: InputDecoration(labelText: 'Name'),
+      decoration: InputDecoration(labelText: 'Nimi'),
       maxLength: 15,
       style: TextStyle(fontSize: 28),
       validator: (String value) {
         if (value.isEmpty) {
-          return 'Name is Required';
+          return 'Nimi on pakollinen';
         }
 
         return null;
@@ -45,35 +51,51 @@ class FoodFormState extends State<FoodForm> {
     );
   }
 
-  Widget _buildCalories() {
-    return TextFormField(
-      initialValue: _calories,
-      decoration: InputDecoration(labelText: 'Calories'),
-      keyboardType: TextInputType.number,
-      style: TextStyle(fontSize: 28),
-      validator: (String value) {
-        int calories = int.tryParse(value);
+  Widget _buildIsVegan() {
 
-        if (calories == null || calories <= 0) {
-          return 'Calories must be greater than 0';
-        }
-
-        return null;
-      },
-      onSaved: (String value) {
-        _calories = value;
+    return Column(
+      children: [
+        RadioListTile(
+          title: const Text("Pisteet / Pituus"),
+          value: SportsType.high,
+          groupValue: _sportsType,
+          onChanged: (SportsType value) {
+            setState(() {
+              _sportsType = value;
+            });
+            print("_sportsType: $_sportsType");
+          },
+        ),
+        RadioListTile(
+          title: const Text("Aika"),
+          value: SportsType.low,
+          groupValue: _sportsType,
+          onChanged: (SportsType value) {
+            setState(() {
+              _sportsType = value;
+            });
+            print("_sportsType: $_sportsType");
+          },
+        )
+    ],);
+    return RadioListTile(
+      title: const Text("Pisteet / Pituus"),
+      value: SportsType.high,
+      groupValue: _sportsType,
+      onChanged: (SportsType value) {
+        setState(() {
+          _sportsType = value;
+        });
       },
     );
-  }
-
-  Widget _buildIsVegan() {
+    /*
     return SwitchListTile(
       title: Text("Vegan?", style: TextStyle(fontSize: 20)),
       value: _isVegan,
       onChanged: (bool newValue) => setState(() {
         _isVegan = newValue;
       }),
-    );
+    );*/
   }
 
   @override
@@ -89,7 +111,7 @@ class FoodFormState extends State<FoodForm> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Food Form")),
+      appBar: AppBar(title: Text("Lisää laji")),
       body: Container(
         margin: EdgeInsets.all(24),
         child: Form(
@@ -98,14 +120,13 @@ class FoodFormState extends State<FoodForm> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               _buildName(),
-              _buildCalories(),
               SizedBox(height: 16),
               _buildIsVegan(),
               SizedBox(height: 20),
               widget.food == null
                   ? RaisedButton(
                 child: Text(
-                  'Submit',
+                  'Lisää',
                   style: TextStyle(color: Colors.blue, fontSize: 16),
                 ),
                 onPressed: () {
@@ -135,7 +156,7 @@ class FoodFormState extends State<FoodForm> {
                 children: <Widget>[
                   RaisedButton(
                     child: Text(
-                      "Update",
+                      "Päivitä",
                       style: TextStyle(color: Colors.blue, fontSize: 16),
                     ),
                     onPressed: () {
@@ -163,7 +184,7 @@ class FoodFormState extends State<FoodForm> {
                   ),
                   RaisedButton(
                     child: Text(
-                      "Cancel",
+                      "Peruuta",
                       style: TextStyle(color: Colors.red, fontSize: 16),
                     ),
                     onPressed: () => Navigator.pop(context),

@@ -65,7 +65,7 @@ class _FoodListState extends State<FoodList> {
   Widget build(BuildContext context) {
     print("Building entire food list scaffold");
     return Scaffold(
-      appBar: AppBar(title: Text("FoodList")),
+      appBar: AppBar(title: Text("Lajit")),
       body: Container(
         child: BlocConsumer<FoodBloc, List<Food>>(
           builder: (context, foodList) {
