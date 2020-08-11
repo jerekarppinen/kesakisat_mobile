@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:kesakisat_mobile/blocs/player_bloc.dart';
 
 
 import 'blocs/sport_bloc.dart';
@@ -48,7 +49,14 @@ class TabBarDemo extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) => SportBloc(),
+          create: (BuildContext context) {
+            return SportBloc();
+          }
+        ),
+        BlocProvider(
+          create: (BuildContext context) {
+            return PlayerBloc();
+          },
         )
       ],
       child: MaterialApp(

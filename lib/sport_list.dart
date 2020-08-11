@@ -71,11 +71,10 @@ class _SportListState extends State<SportList> {
           builder: (context, sportList) {
             return ListView.separated(
               itemBuilder: (BuildContext context, int index) {
-                print("sportList: $sportList");
 
                 Sport sport = sportList[index];
                 return ListTile(
-                    title: Text("${index + 1}. ${sport.name}", style: TextStyle(fontSize: 30)),
+                    title: Text("${index + 1}. ${sport.name} id: ${sport.id}", style: TextStyle(fontSize: 30)),
                     subtitle: Text(
                       "Tyyppi: ${sport.currentSportsValue == 1 ? 'Pisteet / Pituus' : 'Aika'}",
                       style: TextStyle(fontSize: 20),
