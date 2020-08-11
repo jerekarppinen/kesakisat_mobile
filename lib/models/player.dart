@@ -1,3 +1,5 @@
+import 'package:kesakisat_mobile/db/database_provider.dart';
+
 class Player {
   int id;
   String name;
@@ -5,20 +7,19 @@ class Player {
   Player({this.id, this.name});
 
   Map<String, dynamic> toMap() {
-    final Map<String, dynamic> event = <String, dynamic>{
-      'id': this.id,
-      'name': this.name
+    var map = <String, dynamic>{
+      DatabaseProvider.PLAYER_COLUMN_NAME: name,
     };
-    return event;
+
+    if (id != null) {
+      map[DatabaseProvider.COLUMN_ID] = id;
+    }
+
+    return map;
   }
 
-  factory Player.fromJson(Map<String, dynamic> json) => new Player(
-    id: json['id'],
-    name: json['name']
-  );
-
-  Map<String, dynamic> toJson() => {
-    'id': this.id,
-    'name': this.name
-  };
+  Player.fromMap(Map<String, dynamic> map) {
+    id = map[DatabaseProvider.COLUMN_ID];
+    name = map[DatabaseProvider.COLUMN_NAME];
+  }
 }
