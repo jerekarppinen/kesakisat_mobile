@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kesakisat_mobile/blocs/player_bloc.dart';
+import 'package:kesakisat_mobile/player_list.dart';
 
 
 import 'blocs/sport_bloc.dart';
@@ -50,14 +51,14 @@ class TabBarDemo extends StatelessWidget {
       providers: [
         BlocProvider(
           create: (BuildContext context) {
-            return SportBloc();
-          }
-        ),
-        BlocProvider(
-          create: (BuildContext context) {
             return PlayerBloc();
           },
-        )
+        ),
+        BlocProvider(
+            create: (BuildContext context) {
+              return SportBloc();
+            }
+        ),
       ],
       child: MaterialApp(
         title: 'Sqflite Tutorial',
@@ -80,7 +81,7 @@ class TabBarDemo extends StatelessWidget {
             body: TabBarView(
               children: [
                 SportList(),
-                Icon(Icons.directions_transit),
+                PlayerList(),
                 Icon(Icons.directions_bike),
               ],
             ),

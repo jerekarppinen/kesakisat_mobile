@@ -116,6 +116,16 @@ class DatabaseProvider {
     );
   }
 
+  Future<int> deletePlayer(int id) async {
+    final db = await database;
+
+    return await db.delete(
+      TABLE_PLAYERS,
+      where: "id = ?",
+      whereArgs: [id],
+    );
+  }
+
   Future<int> update(Sport sport) async {
     final db = await database;
 

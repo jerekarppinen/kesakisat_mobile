@@ -15,7 +15,7 @@ class SportForm extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    return FoodFormState();
+    return PlayerFormState();
   }
 }
 
@@ -26,7 +26,7 @@ class SportsType {
   SportsType(this._key, this._value);
 }
 
-class FoodFormState extends State<SportForm> {
+class PlayerFormState extends State<SportForm> {
 
   int _currentSportsValue = 1;
 

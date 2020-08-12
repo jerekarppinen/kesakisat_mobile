@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:kesakisat_mobile/blocs/player_bloc.dart';
+import 'package:kesakisat_mobile/events/add_player.dart';
+import 'package:kesakisat_mobile/events/update_player.dart';
+import 'package:kesakisat_mobile/models/player.dart';
 
-import 'blocs/Player_bloc.dart';
+import 'blocs/sport_bloc.dart';
 import 'db/database_provider.dart';
-import 'events/add_Player.dart';
-import 'events/update_Player.dart';
-import 'models/player.dart';
+import 'events/add_sport.dart';
+import 'events/update_sport.dart';
+import 'models/sport.dart';
 
 class PlayerForm extends StatefulWidget {
   final Player player;
@@ -49,6 +53,7 @@ class PlayerFormState extends State<PlayerForm> {
     super.initState();
     if (widget.player != null) {
       _name = widget.player.name;
+      // _currentSportsValue = widget.sport.;
     }
   }
 
@@ -111,7 +116,8 @@ class PlayerFormState extends State<PlayerForm> {
         );
 
         DatabaseProvider.db.insertPlayer(player).then(
-              (storedPlayer) => BlocProvider.of<PlayerBloc>(context).add(AddPlayer(storedPlayer),
+              (storedPlayer) => BlocProvider.of<PlayerBloc>(context).add(
+            AddPlayer(storedPlayer),
           ),
         );
 
@@ -122,9 +128,8 @@ class PlayerFormState extends State<PlayerForm> {
 
   @override
   Widget build(BuildContext context) {
-    final _playerBloc = BlocProvider.of<PlayerBloc>(context);
     return Scaffold(
-      appBar: AppBar(title: Text("Lisää pelaaja")),
+      appBar: AppBar(title: Text("Lisää laji")),
       body: SingleChildScrollView(
         padding: const EdgeInsets.only(top: 120, left: 20, right: 20),
         //margin: EdgeInsets.all(24),
@@ -134,32 +139,9 @@ class PlayerFormState extends State<PlayerForm> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               _buildName(),
-              SizedBox(height: 16),
+              SizedBox(height: 20),
               widget.player == null
-                  ? RaisedButton(
-                child: Text(
-                  'Lisää',
-                  style: TextStyle(color: Colors.blue, fontSize: 16),
-                ),
-                onPressed: () {
-                  if (!_formKey.currentState.validate()) {
-                    return;
-                  }
-
-                  _formKey.currentState.save();
-
-                  Player player = Player(
-                      name: _name
-                  );
-
-                  DatabaseProvider.db.insertPlayer(player).then(
-                        (storedPlayer) => _playerBloc.add(AddPlayer(storedPlayer),
-                    ),
-                  );
-
-                  Navigator.pop(context);
-                },
-              )
+                  ? addPlayer()
                   : editPlayer(),
             ],
           ),

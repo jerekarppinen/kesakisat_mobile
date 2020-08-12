@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:kesakisat_mobile/blocs/player_bloc.dart';
+import 'package:kesakisat_mobile/events/delete_player.dart';
 import 'package:kesakisat_mobile/models/player.dart';
+import 'package:kesakisat_mobile/models/sport.dart';
 import 'package:kesakisat_mobile/player_form.dart';
 
-import 'blocs/player_bloc.dart';
+import 'blocs/sport_bloc.dart';
 import 'db/database_provider.dart';
-import 'events/delete_player.dart';
+import 'events/delete_sport.dart';
 import 'events/set_players.dart';
-import 'models/player.dart';
+import 'events/set_sports.dart';
+import 'sport_form.dart';
+import 'models/sport.dart';
 
 class PlayerList extends StatefulWidget {
   const PlayerList({Key key}) : super(key: key);
@@ -22,7 +27,7 @@ class _PlayerListState extends State<PlayerList> {
     super.initState();
     DatabaseProvider.db.getPlayers().then(
           (playerList) {
-            BlocProvider.of<PlayerBloc>(context).add(SetPlayers(playerList));
+        BlocProvider.of<PlayerBloc>(context).add(SetPlayers(playerList));
       },
     );
   }
@@ -44,7 +49,7 @@ class _PlayerListState extends State<PlayerList> {
             child: Text("Päivitä"),
           ),
           FlatButton(
-            onPressed: () => DatabaseProvider.db.delete(player.id).then((_) {
+            onPressed: () => DatabaseProvider.db.deletePlayer(player.id).then((_) {
               BlocProvider.of<PlayerBloc>(context).add(
                 DeletePlayer(index),
               );
@@ -63,7 +68,7 @@ class _PlayerListState extends State<PlayerList> {
 
   @override
   Widget build(BuildContext context) {
-    print("Building entire player list scaffold");
+    print("Building entire sport list scaffold");
     return Scaffold(
       appBar: AppBar(title: Text("Pelaajat")),
       body: Container(
@@ -81,7 +86,7 @@ class _PlayerListState extends State<PlayerList> {
               separatorBuilder: (BuildContext context, int index) => Divider(color: Colors.black),
             );
           },
-          listener: (BuildContext context, playerList) {},
+          listener: (BuildContext context, sportList) {},
         ),
       ),
       floatingActionButton: FloatingActionButton(
