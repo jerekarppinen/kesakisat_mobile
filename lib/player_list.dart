@@ -3,16 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kesakisat_mobile/blocs/player_bloc.dart';
 import 'package:kesakisat_mobile/events/delete_player.dart';
 import 'package:kesakisat_mobile/models/player.dart';
-import 'package:kesakisat_mobile/models/sport.dart';
 import 'package:kesakisat_mobile/player_form.dart';
-
-import 'blocs/sport_bloc.dart';
 import 'db/database_provider.dart';
-import 'events/delete_sport.dart';
 import 'events/set_players.dart';
-import 'events/set_sports.dart';
-import 'sport_form.dart';
-import 'models/sport.dart';
 
 class PlayerList extends StatefulWidget {
   const PlayerList({Key key}) : super(key: key);

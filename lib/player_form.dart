@@ -5,11 +5,7 @@ import 'package:kesakisat_mobile/events/add_player.dart';
 import 'package:kesakisat_mobile/events/update_player.dart';
 import 'package:kesakisat_mobile/models/player.dart';
 
-import 'blocs/sport_bloc.dart';
 import 'db/database_provider.dart';
-import 'events/add_sport.dart';
-import 'events/update_sport.dart';
-import 'models/sport.dart';
 
 class PlayerForm extends StatefulWidget {
   final Player player;
@@ -129,7 +125,7 @@ class PlayerFormState extends State<PlayerForm> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Lisää laji")),
+      appBar: AppBar(title: Text("Lisää pelaaja")),
       body: SingleChildScrollView(
         padding: const EdgeInsets.only(top: 120, left: 20, right: 20),
         //margin: EdgeInsets.all(24),

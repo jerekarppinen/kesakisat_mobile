@@ -63,7 +63,7 @@ class TabBarDemo extends StatelessWidget {
       child: MaterialApp(
         title: 'Sqflite Tutorial',
         theme: ThemeData(
-          primarySwatch: Colors.green,
+          primarySwatch: Colors.blueGrey,
         ),
         home: DefaultTabController(
           length: 3,

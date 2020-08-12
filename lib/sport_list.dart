@@ -63,12 +63,26 @@ class _SportListState extends State<SportList> {
 
   @override
   Widget build(BuildContext context) {
+    print("build context: $context");
     print("Building entire sport list scaffold");
     return Scaffold(
-      appBar: AppBar(title: Text("Lajit")),
+      appBar: AppBar(
+          title: Text("Lajit"),
+        actions: [
+          IconButton(
+            iconSize: 45,
+            icon: Icon(Icons.play_arrow),
+            color: Colors.greenAccent,
+            onPressed: () {
+              print("pressed play");
+            },
+          )
+        ],
+      ),
       body: Container(
         child: BlocConsumer<SportBloc, List<Sport>>(
           builder: (context, sportList) {
+            print("BlocConsumer context: $context");
             return ListView.separated(
               itemBuilder: (BuildContext context, int index) {
 
