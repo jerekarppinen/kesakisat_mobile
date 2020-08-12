@@ -4,7 +4,7 @@ import 'package:kesakisat_mobile/models/player.dart';
 class AddPlayer extends PlayerEvent {
   Player newPlayer;
 
-  AddPlayer(Player sport) {
-    newPlayer = sport;
+  AddPlayer(Player player) {
+    newPlayer = player;
   }
 }

@@ -100,6 +100,12 @@ class DatabaseProvider {
     return sport;
   }
 
+  Future<Player> insertPlayer(Player player) async {
+    final db = await database;
+    player.id = await db.insert(TABLE_PLAYERS, player.toMap());
+    return player;
+  }
+
   Future<int> delete(int id) async {
     final db = await database;
 
@@ -118,6 +124,17 @@ class DatabaseProvider {
       sport.toMap(),
       where: "id = ?",
       whereArgs: [sport.id],
+    );
+  }
+
+  Future<int> updatePlayer(Player player) async {
+    final db = await database;
+
+    return await db.update(
+      TABLE_PLAYERS,
+      player.toMap(),
+      where: "id = ?",
+      whereArgs: [player.id],
     );
   }
 }
