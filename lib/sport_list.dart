@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kesakisat_mobile/models/sport.dart';
+import 'package:kesakisat_mobile/play_sport.dart';
 
 import 'blocs/sport_bloc.dart';
 import 'db/database_provider.dart';
@@ -38,10 +39,24 @@ class _SportListState extends State<SportList> {
             onPressed: () => Navigator.pushReplacement(
               context,
               MaterialPageRoute(
+                builder: (context) => PlaySport(sport: sport),
+              ),
+            ),
+            child: Text(
+                "Aloita",
+              style: TextStyle(fontSize: 25, color: Colors.green),
+            ),
+          ),
+          FlatButton(
+            onPressed: () => Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
                 builder: (context) => SportForm(sport: sport, sportIndex: index),
               ),
             ),
-            child: Text("Päivitä"),
+            child: Text(
+                "Päivitä",
+            ),
           ),
           FlatButton(
             onPressed: () => DatabaseProvider.db.delete(sport.id).then((_) {
@@ -68,16 +83,6 @@ class _SportListState extends State<SportList> {
     return Scaffold(
       appBar: AppBar(
           title: Text("Lajit"),
-        actions: [
-          IconButton(
-            iconSize: 45,
-            icon: Icon(Icons.play_arrow),
-            color: Colors.greenAccent,
-            onPressed: () {
-              print("pressed play");
-            },
-          )
-        ],
       ),
       body: Container(
         child: BlocConsumer<SportBloc, List<Sport>>(
