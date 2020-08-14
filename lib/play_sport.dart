@@ -41,9 +41,31 @@ class _PlaySportState extends State<PlaySport> {
               itemBuilder: (BuildContext context, int index) {
 
                 Player player = playerList[index];
+                /*return Row(
+                  children: [
+                    ListTile(
+                      title: Text("${index + 1}. ${player.name} id: ${player.id}", style: TextStyle(fontSize: 30)),
+                    ),
+                  ],
+                );*/
                 return ListTile(
-                    title: Text("${index + 1}. ${player.name} id: ${player.id}", style: TextStyle(fontSize: 30)),
-                    onTap: () => print("player tapped"));
+                  title: Text("${index + 1}. ${player.name}", style: TextStyle(fontSize: 30)),
+                  trailing: new Container(
+                    width: 150.0,
+                    child: new Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: <Widget>[
+                        Expanded(
+                          flex: 3,
+                          child: TextField(
+                            textAlign: TextAlign.end,
+                            decoration: InputDecoration(hintText: 'Tulos'),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                );
               },
               itemCount: playerList.length,
               separatorBuilder: (BuildContext context, int index) => Divider(color: Colors.black),
