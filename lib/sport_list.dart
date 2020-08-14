@@ -95,7 +95,7 @@ class _SportListState extends State<SportList> {
                 return ListTile(
                     title: Text("${index + 1}. ${sport.name} id: ${sport.id}", style: TextStyle(fontSize: 30)),
                     subtitle: Text(
-                      "Tyyppi: ${sport.currentSportsValue == 1 ? 'Pisteet / Pituus' : 'Aika'}",
+                      "Tyyppi: ${sport.isHigh == 1 ? 'Pisteet / Pituus' : 'Aika'}",
                       style: TextStyle(fontSize: 20),
                     ),
                     onTap: () => showSportDialog(context, sport, index));

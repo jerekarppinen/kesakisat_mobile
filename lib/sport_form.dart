@@ -28,7 +28,7 @@ class SportsType {
 
 class PlayerFormState extends State<SportForm> {
 
-  int _currentSportsValue = 1;
+  int _isHigh = 1;
 
   final _sportsOptions = [
     SportsType(1, "high"),
@@ -62,13 +62,13 @@ class PlayerFormState extends State<SportForm> {
 
     return Column(
       children: _sportsOptions.map((sportValue) => RadioListTile(
-        groupValue: _currentSportsValue,
+        groupValue: _isHigh,
         title: Text(sportValue._value == 'high' ? 'Pisteet / Pituus' : 'Aika'),
         value: sportValue._key,
         onChanged: (val) {
           setState(() {
             print("val: $val");
-            _currentSportsValue = val;
+            _isHigh = val;
           });
         },
       )).toList(),
@@ -80,7 +80,7 @@ class PlayerFormState extends State<SportForm> {
     super.initState();
     if (widget.sport != null) {
       _name = widget.sport.name;
-      // _currentSportsValue = widget.sport.;
+      // _isHigh = widget.sport.;
     }
   }
 
@@ -103,7 +103,7 @@ class PlayerFormState extends State<SportForm> {
 
             Sport sport = Sport(
               name: _name,
-              currentSportsValue: _currentSportsValue,
+              isHigh: _isHigh,
             );
 
             DatabaseProvider.db.update(widget.sport).then(
@@ -141,7 +141,7 @@ class PlayerFormState extends State<SportForm> {
 
         Sport sport = Sport(
           name: _name,
-          currentSportsValue: _currentSportsValue,
+          isHigh: _isHigh,
         );
 
         DatabaseProvider.db.insert(sport).then(

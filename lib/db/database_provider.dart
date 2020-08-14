@@ -9,10 +9,14 @@ class DatabaseProvider {
   static const String COLUMN_NAME = "name";
   static const String COLUMN_IS_HIGH = "is_high"; // The highest score wins in distance and in score, the lowest wins in time measured
 
-
   static const String TABLE_PLAYERS = "players";
   static const String PLAYER_COLUMN_ID = "id";
   static const String PLAYER_COLUMN_NAME = "name";
+
+  static const String TABLE_SPORT_RESULTS = "sport_results";
+  static const String SPORT_RESULTS_COLUMN_PLAYER_ID = "player_id";
+  static const String SPORT_RESULTS_COLUMN_SPORT_ID = "sport_id";
+  static const String SPORT_RESULTS_COLUMN_RESULT = "result";
 
   DatabaseProvider._();
   static final DatabaseProvider db = DatabaseProvider._();
@@ -55,6 +59,18 @@ class DatabaseProvider {
               "$PLAYER_COLUMN_ID INTEGER PRIMARY KEY,"
               "$PLAYER_COLUMN_NAME TEXT"
               ")",
+        );
+
+
+        print("Creating $TABLE_SPORT_RESULTS table");
+
+        await database.execute(
+          "CREATE TABLE $TABLE_SPORT_RESULTS ("
+              "$SPORT_RESULTS_COLUMN_PLAYER_ID INTEGER,"
+              "$SPORT_RESULTS_COLUMN_SPORT_ID INTEGER,"
+              "$SPORT_RESULTS_COLUMN_RESULT INTEGER,"
+              "PRIMARY KEY ($SPORT_RESULTS_COLUMN_PLAYER_ID, $SPORT_RESULTS_COLUMN_SPORT_ID)"
+              ")"
         );
       },
     );
@@ -105,6 +121,14 @@ class DatabaseProvider {
     player.id = await db.insert(TABLE_PLAYERS, player.toMap());
     return player;
   }
+
+  /*
+  Future<Player> insertScore(int playerId, int sportId, int score) async {
+    final db = await database;
+    player.id = await db.rawQuery("");
+    return player;
+  }
+  */
 
   Future<int> delete(int id) async {
     final db = await database;

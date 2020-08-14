@@ -49,7 +49,7 @@ class PlayerFormState extends State<PlayerForm> {
     super.initState();
     if (widget.player != null) {
       _name = widget.player.name;
-      // _currentSportsValue = widget.sport.;
+      // _isHigh = widget.sport.;
     }
   }
 

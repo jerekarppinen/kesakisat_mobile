@@ -31,7 +31,7 @@ class _PlaySportState extends State<PlaySport> {
   Widget build(BuildContext context) {
     print("Building entire sport list scaffold");
     return Scaffold(
-      appBar: AppBar(title: Text("${widget.sport.name}, ${widget.sport.currentSportsValue}")),
+      appBar: AppBar(title: Text("${widget.sport.name}, ${widget.sport.isHigh}")),
       body: Container(
         child: BlocConsumer<PlayerBloc, List<Player>>(
           builder: (context, playerList) {
@@ -53,7 +53,7 @@ class _PlaySportState extends State<PlaySport> {
                             textAlign: TextAlign.end,
                             decoration: InputDecoration(hintText: 'Tulos'),
                             onChanged: (value) => {
-                              print("Tulos: $value, pelaaja: ${player.name}")
+                              print("Tulos: $value, pelaaja: ${player.name}, pelaaja id: ${player.id}, sport id: ${widget.sport.id}")
                             },
                           ),
                         ),
