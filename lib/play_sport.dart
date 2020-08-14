@@ -33,7 +33,7 @@ class _PlaySportState extends State<PlaySport> {
   Widget build(BuildContext context) {
     print("Building entire sport list scaffold");
     return Scaffold(
-      appBar: AppBar(title: Text("Pelaajat")),
+      appBar: AppBar(title: Text("Laji: ${widget.sport.name}")),
       body: Container(
         child: BlocConsumer<PlayerBloc, List<Player>>(
           builder: (context, playerList) {

@@ -43,7 +43,7 @@ class _SportListState extends State<SportList> {
               ),
             ),
             child: Text(
-                "Aloita",
+                "Pelaa",
               style: TextStyle(fontSize: 25, color: Colors.green),
             ),
           ),
