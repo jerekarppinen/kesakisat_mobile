@@ -1,4 +1,5 @@
 import 'package:kesakisat_mobile/models/player.dart';
+import 'package:kesakisat_mobile/models/score.dart';
 import 'package:kesakisat_mobile/models/sport.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
@@ -16,7 +17,7 @@ class DatabaseProvider {
   static const String TABLE_SPORT_RESULTS = "sport_results";
   static const String SPORT_RESULTS_COLUMN_PLAYER_ID = "player_id";
   static const String SPORT_RESULTS_COLUMN_SPORT_ID = "sport_id";
-  static const String SPORT_RESULTS_COLUMN_RESULT = "result";
+  static const String SPORT_RESULTS_COLUMN_SCORE = "score";
 
   DatabaseProvider._();
   static final DatabaseProvider db = DatabaseProvider._();
@@ -68,7 +69,7 @@ class DatabaseProvider {
           "CREATE TABLE $TABLE_SPORT_RESULTS ("
               "$SPORT_RESULTS_COLUMN_PLAYER_ID INTEGER,"
               "$SPORT_RESULTS_COLUMN_SPORT_ID INTEGER,"
-              "$SPORT_RESULTS_COLUMN_RESULT INTEGER,"
+              "$SPORT_RESULTS_COLUMN_SCORE INTEGER,"
               "PRIMARY KEY ($SPORT_RESULTS_COLUMN_PLAYER_ID, $SPORT_RESULTS_COLUMN_SPORT_ID)"
               ")"
         );
@@ -122,13 +123,25 @@ class DatabaseProvider {
     return player;
   }
 
-  /*
-  Future<Player> insertScore(int playerId, int sportId, int score) async {
+
+  Future<List<Score>> insertScore(int playerId, int sportId, int score) async {
     final db = await database;
-    player.id = await db.rawQuery("");
-    return player;
+    await db.rawQuery(
+        "REPLACE INTO " +
+            "$TABLE_SPORT_RESULTS ($SPORT_RESULTS_COLUMN_PLAYER_ID, $SPORT_RESULTS_COLUMN_SPORT_ID, $SPORT_RESULTS_COLUMN_SCORE)"
+            + "VALUES ($playerId, $sportId, $score)"
+    );
+
+    var scores = await db.query(TABLE_SPORT_RESULTS, columns: [SPORT_RESULTS_COLUMN_PLAYER_ID, SPORT_RESULTS_COLUMN_SPORT_ID, SPORT_RESULTS_COLUMN_SCORE]);
+
+    List<Score> scoreList = List<Score>();
+    scores.forEach((currentScore) {
+      Score score = Score.fromMap(currentScore);
+      scoreList.add(score);
+    });
+
+    return scoreList;
   }
-  */
 
   Future<int> delete(int id) async {
     final db = await database;

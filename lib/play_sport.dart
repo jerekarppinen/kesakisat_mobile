@@ -53,7 +53,11 @@ class _PlaySportState extends State<PlaySport> {
                             textAlign: TextAlign.end,
                             decoration: InputDecoration(hintText: 'Tulos'),
                             onChanged: (value) => {
-                              print("Tulos: $value, pelaaja: ${player.name}, pelaaja id: ${player.id}, sport id: ${widget.sport.id}")
+                              print("Tulos: $value, pelaaja: ${player.name}, pelaaja id: ${player.id}, sport id: ${widget.sport.id}"),
+                              DatabaseProvider.db.insertScore(player.id, widget.sport.id, int.parse(value))
+                      .then((storedScores) => storedScores.forEach((score) {
+                        print("score.playerId: ${score.playerId}, score.sportId: ${score.sportId}, score.score: ${score.score}");
+                              }))
                             },
                           ),
                         ),
