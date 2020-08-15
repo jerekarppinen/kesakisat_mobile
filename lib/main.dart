@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kesakisat_mobile/blocs/player_bloc.dart';
 import 'package:kesakisat_mobile/player_list.dart';
+import 'package:kesakisat_mobile/result_list.dart';
 
 
 import 'blocs/sport_bloc.dart';
@@ -82,7 +83,7 @@ class TabBarDemo extends StatelessWidget {
               children: [
                 SportList(),
                 PlayerList(),
-                Icon(Icons.directions_bike),
+                ResultList(),
               ],
             ),
           ),
