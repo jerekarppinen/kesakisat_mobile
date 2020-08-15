@@ -32,7 +32,7 @@ class PlayerFormState extends State<SportForm> {
 
   final _sportsOptions = [
     SportsType(1, "high"),
-    SportsType(2, "low"),
+    SportsType(0, "low"),
   ];
 
   String _name;
