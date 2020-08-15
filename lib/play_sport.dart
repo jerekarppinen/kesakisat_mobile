@@ -64,7 +64,7 @@ class _PlaySportState extends State<PlaySport> {
                   if (value.playerId == player.id) {
                     _score = value.score;
                   }
-                  print("value.playerId: ${value.playerId}, value.sportName: ${value.sportsName} value.score: ${value.score}");
+                  print("value.playerId: ${value.playerId}, value.sportName: ${value.sportName} value.score: ${value.score}");
                 });
 
                 return ListTile(

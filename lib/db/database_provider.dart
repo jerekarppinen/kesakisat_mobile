@@ -94,6 +94,32 @@ class DatabaseProvider {
     return sportList;
   }
 
+  Future<List<Score>> getScores() async {
+    final db = await database;
+
+    var scores = await db.rawQuery(
+        "SELECT "
+            "$TABLE_SPORTS.name as sportName, "
+            "$SPORT_RESULTS_COLUMN_PLAYER_ID, "
+            "$SPORT_RESULTS_COLUMN_SPORT_ID, "
+            "$SPORT_RESULTS_COLUMN_SCORE, "
+            "$TABLE_SPORTS.is_High, "
+            "$TABLE_PLAYERS.name as playerName "
+            "FROM $TABLE_SPORT_RESULTS "
+            "JOIN $TABLE_SPORTS ON $TABLE_SPORT_RESULTS.sport_id = $TABLE_SPORTS.id "
+            "JOIN $TABLE_PLAYERS ON $TABLE_SPORT_RESULTS.player_id = $TABLE_PLAYERS.id "
+            "ORDER BY sport_id ASC");
+
+
+    List<Score> scoreList = List<Score>();
+    scores.forEach((currentScore) {
+      Score score = Score.fromMap(currentScore);
+      scoreList.add(score);
+    });
+
+    return scoreList;
+  }
+
   Future<List<Score>> getScoresBySport(int sportId) async {
     final db = await database;
 
@@ -108,8 +134,6 @@ class DatabaseProvider {
     });
 
     return scoreList;
-    //return _getScoresAsList(scores);
-
   }
 
   Future<List<Player>> getPlayers() async {
@@ -149,10 +173,6 @@ class DatabaseProvider {
             "$TABLE_SPORT_RESULTS ($SPORT_RESULTS_COLUMN_PLAYER_ID, $SPORT_RESULTS_COLUMN_SPORT_ID, $SPORT_RESULTS_COLUMN_SCORE)"
             + "VALUES ($playerId, $sportId, $score)"
     );
-
-    //var scores = await db.query(TABLE_SPORT_RESULTS, columns: [SPORT_RESULTS_COLUMN_PLAYER_ID, SPORT_RESULTS_COLUMN_SPORT_ID, SPORT_RESULTS_COLUMN_SCORE]);
-
-    //List<Score> scoreList = _getScoresAsList(scores);
 
     var scores = await db.rawQuery(
         "SELECT $TABLE_SPORTS.name ,$SPORT_RESULTS_COLUMN_PLAYER_ID, $SPORT_RESULTS_COLUMN_SPORT_ID, $SPORT_RESULTS_COLUMN_SCORE, $TABLE_SPORTS.is_High"
@@ -208,14 +228,5 @@ class DatabaseProvider {
       where: "id = ?",
       whereArgs: [player.id],
     );
-  }
-
-  List<Score> _getScoresAsList(scores) {
-    List<Score> scoreList = List<Score>();
-    scores.forEach((currentScore) {
-      Score score = Score.fromMap(currentScore);
-      scoreList.add(score);
-    });
-    return scores;
   }
 }
