@@ -24,8 +24,11 @@ class _ResultListState extends State<ResultList> {
               print("sportName: ${score.sportName}, playerName: ${score.playerName}, score: ${score.score}, isHigh: ${score.isHigh}");
             });
 
+            print("");
+
             groupBySportName.forEach((sportName, scoresArray) {
-              print("sportName: $sportName, scoresArray: $scoresArray, length: ${scoresArray.length}");
+              print("sportName: $sportName, scoresArray: $scoresArray");
+              
             });
 
       },

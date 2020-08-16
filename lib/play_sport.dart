@@ -19,7 +19,7 @@ class PlaySport extends StatefulWidget {
 
 class _PlaySportState extends State<PlaySport> {
 
-  List<Score> _scoreList;
+  List<Score> _scoreList = [];
 
   @override
   void initState() {
