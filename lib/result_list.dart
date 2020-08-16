@@ -38,10 +38,18 @@ class _ResultListState extends State<ResultList> {
               }
 
               int startPoints = 100;
-              scoresArray.forEach((score) {
-                print("score: ${score.score}, points: ${startPoints--}, player: ${score.playerName}, sport: ${score.sportName}");
-              });
 
+              for(int i = 1; i <= scoresArray.length; i++) {
+                Score score = scoresArray[i - 1];
+
+                print("score: ${score.score}, points: ${startPoints}, player: ${score.playerName}, sport: ${score.sportName}");
+
+                if (i < scoresArray.length) {
+                  if (scoresArray[i].score != score.score) {
+                    startPoints--;
+                  }
+                }
+              }
             });
 
       },
