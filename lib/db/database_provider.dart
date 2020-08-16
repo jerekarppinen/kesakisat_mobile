@@ -1,4 +1,5 @@
 import 'package:kesakisat_mobile/models/player.dart';
+import 'package:kesakisat_mobile/models/result.dart';
 import 'package:kesakisat_mobile/models/score.dart';
 import 'package:kesakisat_mobile/models/sport.dart';
 import 'package:path/path.dart';
@@ -18,6 +19,12 @@ class DatabaseProvider {
   static const String SPORT_RESULTS_COLUMN_PLAYER_ID = "player_id";
   static const String SPORT_RESULTS_COLUMN_SPORT_ID = "sport_id";
   static const String SPORT_RESULTS_COLUMN_SCORE = "score";
+
+  static const String TABLE_SCORE = "score";
+  static const String SCORE_SPORT_ID = "sport_id";
+  static const String SCORE_PLAYER_ID = "player_id";
+  static const String SCORE_POINTS = "points";
+  static const String SCORE_SCORE = "score";
 
   DatabaseProvider._();
   static final DatabaseProvider db = DatabaseProvider._();
@@ -72,6 +79,18 @@ class DatabaseProvider {
               "$SPORT_RESULTS_COLUMN_SCORE INTEGER,"
               "PRIMARY KEY ($SPORT_RESULTS_COLUMN_PLAYER_ID, $SPORT_RESULTS_COLUMN_SPORT_ID)"
               ")"
+        );
+
+        print("Creating $TABLE_SCORE table");
+
+        await database.execute(
+            "CREATE TABLE $TABLE_SCORE ("
+                "$SCORE_PLAYER_ID INTEGER,"
+                "$SCORE_SPORT_ID INTEGER,"
+                "$SCORE_POINTS INTEGER,"
+                "$SCORE_SCORE INTEGER,"
+                "PRIMARY KEY ($SCORE_PLAYER_ID, $SCORE_SPORT_ID)"
+                ")"
         );
       },
     );
@@ -186,6 +205,12 @@ class DatabaseProvider {
 
 
     return scoreList;
+  }
+
+  Future<Result> insertResult(Result result) async {
+    final db = await database;
+    var id = await db.insert(TABLE_SCORE, result.toMap());
+    return result;
   }
 
   Future<int> delete(int id) async {
