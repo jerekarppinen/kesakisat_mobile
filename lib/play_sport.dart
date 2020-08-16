@@ -34,13 +34,6 @@ class _PlaySportState extends State<PlaySport> {
             setState(() {
               _scoreList = scoreList;
             });
-            /*
-            scoreList.forEach((score) {
-
-              //print("score.isHigh: ${score.isHigh}, score.sportsName: ${score.sportsName}, score.playerId: ${score.playerId}, score.score: ${score.score} score.sportId: ${score.sportId}");
-            });
-
-             */
       },
     );
   }

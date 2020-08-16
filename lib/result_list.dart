@@ -18,17 +18,30 @@ class _ResultListState extends State<ResultList> {
     DatabaseProvider.db.getScores().then(
           (scoreList) {
 
-            var groupBySportName = groupBy(scoreList, (Score obj) => obj.sportName);
-
             scoreList.forEach((score) {
               print("sportName: ${score.sportName}, playerName: ${score.playerName}, score: ${score.score}, isHigh: ${score.isHigh}");
             });
 
             print("");
 
+            Map<String, List<Score>> groupBySportName = groupBy(scoreList, (Score obj) => obj.sportName);
+
             groupBySportName.forEach((sportName, scoresArray) {
               print("sportName: $sportName, scoresArray: $scoresArray");
-              
+              print("isHigh: ${scoresArray[0].isHigh}");
+              int isHigh = scoresArray[0].isHigh;
+
+              if (isHigh == 1) {
+                scoresArray.sort((a, b) => b.score.compareTo(a.score));
+              } else if(isHigh == 0) {
+                scoresArray.sort((a, b) => a.score.compareTo(b.score));
+              }
+
+              int startPoints = 100;
+              scoresArray.forEach((score) {
+                print("score: ${score.score}, points: ${startPoints--}, player: ${score.playerName}, sport: ${score.sportName}");
+              });
+
             });
 
       },
