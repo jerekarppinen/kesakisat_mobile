@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kesakisat_mobile/db/database_provider.dart';
+import 'package:kesakisat_mobile/models/score.dart';
+import "package:collection/collection.dart";
 
 class ResultList extends StatefulWidget {
   const ResultList({Key key}) : super(key: key);
@@ -9,15 +11,24 @@ class ResultList extends StatefulWidget {
 }
 
 class _ResultListState extends State<ResultList> {
+
   @override
   void initState() {
     super.initState();
     DatabaseProvider.db.getScores().then(
           (scoreList) {
+
+            var groupBySportName = groupBy(scoreList, (Score obj) => obj.sportName);
+
+            print("newList: ${groupBySportName['Tikanheitto'][3].score}");
+
         scoreList.forEach((score) {
-          print("score.sportId: ${score.sportId}, score.sportsName: ${score.sportName}, score.playerId: ${score.playerId}, score.isHigh: ${score.isHigh}, score.score: ${score.score}");
+          print("score.sportId: ${score.sportId}, score.sportsName: ${score.sportName}, score.playerId: ${score.playerId}, score.isHigh: ${score.isHigh}, score.score: ${score.score}, score.playerName: ${score.playerName}");
+
+
 
         });
+
       },
     );
   }

@@ -7,6 +7,7 @@ class Score {
   int isHigh;
   String sportName;
   String playerName;
+  int numberOfEntries;
 
   Score({this.playerId, this.sportId, this.score});
 
@@ -32,5 +33,6 @@ class Score {
     isHigh = map[DatabaseProvider.COLUMN_IS_HIGH];
     sportName = map['sportName'];
     playerName = map['playerName'];
+    numberOfEntries = map['number_of_entries'];
   }
 }
