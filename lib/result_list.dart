@@ -20,14 +20,13 @@ class _ResultListState extends State<ResultList> {
 
             var groupBySportName = groupBy(scoreList, (Score obj) => obj.sportName);
 
-            print("newList: ${groupBySportName['Tikanheitto'][3].score}");
+            scoreList.forEach((score) {
+              print("sportName: ${score.sportName}, playerName: ${score.playerName}, score: ${score.score}, isHigh: ${score.isHigh}");
+            });
 
-        scoreList.forEach((score) {
-          print("score.sportId: ${score.sportId}, score.sportsName: ${score.sportName}, score.playerId: ${score.playerId}, score.isHigh: ${score.isHigh}, score.score: ${score.score}, score.playerName: ${score.playerName}");
-
-
-
-        });
+            groupBySportName.forEach((sportName, scoresArray) {
+              print("sportName: $sportName, scoresArray: $scoresArray, length: ${scoresArray.length}");
+            });
 
       },
     );
