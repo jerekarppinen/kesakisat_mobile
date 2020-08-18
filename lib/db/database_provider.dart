@@ -275,7 +275,10 @@ class DatabaseProvider {
     );
   }
 
-  Future<int> updatePlayer(Player player) async {
+  Future<int> updatePlayer(int playerId, String playerName) async {
+
+    Player player = new Player(id: playerId, name: playerName);
+
     final db = await database;
 
     return await db.update(

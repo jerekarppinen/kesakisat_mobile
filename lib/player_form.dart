@@ -74,7 +74,7 @@ class PlayerFormState extends State<PlayerForm> {
               name: _name,
             );
 
-            DatabaseProvider.db.updatePlayer(widget.player).then(
+            DatabaseProvider.db.updatePlayer(widget.player.id, _name).then(
                   (storedPlayer) => BlocProvider.of<PlayerBloc>(context).add(
                 UpdatePlayer(widget.playerIndex, player),
               ),
@@ -125,7 +125,7 @@ class PlayerFormState extends State<PlayerForm> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Lisää pelaaja")),
+      appBar: AppBar(title: Text(widget.player == null ? "Lisää pelaaja": "Muokkaa pelaajaa")),
       body: SingleChildScrollView(
         padding: const EdgeInsets.only(top: 120, left: 20, right: 20),
         //margin: EdgeInsets.all(24),
