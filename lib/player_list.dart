@@ -30,7 +30,7 @@ class _PlayerListState extends State<PlayerList> {
       context: context,
       builder: (context) => AlertDialog(
         title: Text(player.name),
-        content: Text("ID ${player.id}"),
+        content: Text(""),
         actions: <Widget>[
           FlatButton(
             onPressed: () => Navigator.pushReplacement(

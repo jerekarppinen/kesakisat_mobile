@@ -34,7 +34,7 @@ class _SportListState extends State<SportList> {
       context: context,
       builder: (context) => AlertDialog(
         title: Text(sport.name),
-        content: Text("ID ${sport.id}"),
+        content: Text(""),
         actions: <Widget>[
           FlatButton(
             onPressed: () => Navigator.pushReplacement(
