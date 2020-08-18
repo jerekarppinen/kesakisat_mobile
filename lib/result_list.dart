@@ -2,7 +2,6 @@ import 'dart:collection';
 
 import 'package:flutter/material.dart';
 import 'package:kesakisat_mobile/services/score_service.dart';
-import 'package:progress_dialog/progress_dialog.dart';
 
 class ResultList extends StatefulWidget {
   const ResultList({Key key}) : super(key: key);
@@ -22,7 +21,6 @@ class _ResultListState extends State<ResultList> {
 
   @override
   Widget build(BuildContext context) {
-    final ProgressDialog pr = ProgressDialog(context);
     return Scaffold(
       appBar: AppBar(title: Text("Tulokset")),
       body: Container(
@@ -38,6 +36,17 @@ class _ResultListState extends State<ResultList> {
                     Text("Lasketaan...")
                   ],
                 )
+              );
+            }
+
+            if (snapshot.data.length == 0) {
+              return Center(
+                  child: Text(
+                      "Ei tuloksia",
+                    style: TextStyle(
+                      fontSize: 30
+                    ),
+                  )
               );
             }
 
