@@ -5,6 +5,8 @@ class Result {
   int playerId;
   int points;
   int score;
+  String playerName;
+  String sportName;
 
   Result({ this.sportId, this.playerId, this.points, this.score });
 
@@ -24,5 +26,7 @@ class Result {
     sportId = map['sport_id'];
     points = map['points'];
     score = map['score'];
+    playerName = map['player_name'];
+    sportName = map['sport_name'];
   }
 }

@@ -1,8 +1,11 @@
+import 'dart:collection';
+
 import 'package:flutter/material.dart';
 import 'package:kesakisat_mobile/db/database_provider.dart';
 import 'package:kesakisat_mobile/models/result.dart';
 import 'package:kesakisat_mobile/models/score.dart';
 import "package:collection/collection.dart";
+import 'package:kesakisat_mobile/services/score_service.dart';
 
 class ResultList extends StatefulWidget {
   const ResultList({Key key}) : super(key: key);
@@ -13,47 +16,17 @@ class ResultList extends StatefulWidget {
 
 class _ResultListState extends State<ResultList> {
 
+  ScoreService _scoreService = new ScoreService();
+  Map _scoresCalculated;
+
   @override
   void initState() {
     super.initState();
-    DatabaseProvider.db.getScores().then(
-          (scoreList) {
-
-            Map<String, List<Score>> groupBySportName = groupBy(scoreList, (Score obj) => obj.sportName);
-
-            groupBySportName.forEach((sportName, scoresArray) {
-              int isHigh = scoresArray[0].isHigh;
-
-              // If sport has type high, sort players' scores desc
-              if (isHigh == 1) {
-                scoresArray.sort((a, b) => b.score.compareTo(a.score));
-                // If sport has type low, sort players' scores asc
-              } else if(isHigh == 0) {
-                scoresArray.sort((a, b) => a.score.compareTo(b.score));
-              }
-
-              // The top player always gets 100 score
-              int startPoints = 100;
-
-              for(int i = 1; i <= scoresArray.length; i++) {
-                Score score = scoresArray[i - 1];
-
-                print("score: ${score.score}, points: ${startPoints}, player: ${score.playerName}, sport: ${score.sportName}");
-
-                Result result = new Result(sportId: score.sportId, playerId: score.playerId, points: startPoints, score: score.score);
-
-                DatabaseProvider.db.insertResult(result);
-
-                if (i < scoresArray.length) {
-                  if (scoresArray[i].score != score.score) {
-                    startPoints--;
-                  }
-                }
-              }
-            });
-
-      },
-    );
+    _scoreService.getScoresCalculated().then((score) {
+      setState(() {
+        _scoresCalculated = score;
+      });
+    });
   }
 
   @override
@@ -61,8 +34,39 @@ class _ResultListState extends State<ResultList> {
     return Scaffold(
       appBar: AppBar(title: Text("Tulokset")),
       body: Container(
-        child: Text("Tuloksia!")
-      ),
+        child: FutureBuilder<Map<String, int>>(
+          future: _scoreService.getScoresCalculated(),
+          builder: (BuildContext context, AsyncSnapshot<Map<String, int>> snapshot) {
+            if (!snapshot.hasData) {
+              return Text("Ei tuloksia");
+            }
+
+            var data = snapshot.data;
+
+            // https://stackoverflow.com/questions/30620546/how-to-sort-map-value
+            var sortedKeys = data.keys.toList(growable:false)
+              ..sort((k1, k2) => data[k2].compareTo(data[k1]));
+            LinkedHashMap sortedMap = new LinkedHashMap
+                .fromIterable(sortedKeys, key: (k) => k, value: (k) => data[k]);
+
+            return ListView.builder(
+              itemCount: sortedMap.length,
+              itemBuilder: (BuildContext context, int index) {
+                String key = sortedMap.keys.elementAt(index);
+                return new Column(
+                  children: [
+                    ListTile(
+                      title: Text("${index+1}: $key"),
+                      subtitle: Text(sortedMap[key].toString()),
+                    ),
+                    Divider(height: 2.0)
+                  ],
+                );
+              },
+            );
+          },
+        )
+      )
     );
   }
 }
