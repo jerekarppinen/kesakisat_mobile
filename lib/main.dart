@@ -62,7 +62,7 @@ class TabBarDemo extends StatelessWidget {
         ),
       ],
       child: MaterialApp(
-        title: 'Sqflite Tutorial',
+        title: 'Pankajärvi Olympics',
         theme: ThemeData(
           primarySwatch: Colors.blueGrey,
         ),
@@ -72,8 +72,8 @@ class TabBarDemo extends StatelessWidget {
             appBar: AppBar(
               bottom: TabBar(
                 tabs: [
-                  Tab(icon: Icon(Icons.list)),
                   Tab(icon: Icon(Icons.people)),
+                  Tab(icon: Icon(Icons.list)),
                   Tab(icon: Icon(Icons.flag)),
                 ],
               ),
@@ -81,8 +81,8 @@ class TabBarDemo extends StatelessWidget {
             ),
             body: TabBarView(
               children: [
-                SportList(),
                 PlayerList(),
+                SportList(),
                 ResultList(),
               ],
             ),

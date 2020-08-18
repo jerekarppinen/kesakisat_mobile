@@ -108,7 +108,7 @@ class PlayerFormState extends State<PlayerForm> {
         _formKey.currentState.save();
 
         Player player = Player(
-          name: _name
+          name: _name.trim()
         );
 
         DatabaseProvider.db.insertPlayer(player).then(

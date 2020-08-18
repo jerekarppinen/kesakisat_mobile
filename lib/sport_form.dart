@@ -53,12 +53,12 @@ class PlayerFormState extends State<SportForm> {
         return null;
       },
       onSaved: (String value) {
-        _name = value;
+        _name = value.trim();
       },
     );
   }
 
-  Widget _buildIsVegan() {
+  Widget _buildSportType() {
 
     return Column(
       children: _sportsOptions.map((sportValue) => RadioListTile(
@@ -169,7 +169,7 @@ class PlayerFormState extends State<SportForm> {
             children: <Widget>[
               _buildName(),
               SizedBox(height: 16),
-              _buildIsVegan(),
+              _buildSportType(),
               SizedBox(height: 20),
               widget.sport == null
                   ? addSport()
