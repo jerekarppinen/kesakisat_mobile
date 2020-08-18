@@ -72,7 +72,7 @@ class _PlayerListState extends State<PlayerList> {
 
                 Player player = playerList[index];
                 return ListTile(
-                    title: Text("${index + 1}. ${player.name} id: ${player.id}", style: TextStyle(fontSize: 30)),
+                    title: Text("${index + 1}. ${player.name}", style: TextStyle(fontSize: 30)),
                     onTap: () => showPlayerDialog(context, player, index));
               },
               itemCount: playerList.length,

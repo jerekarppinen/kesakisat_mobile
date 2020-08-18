@@ -8,46 +8,11 @@ import 'package:kesakisat_mobile/result_list.dart';
 import 'blocs/sport_bloc.dart';
 import 'sport_list.dart';
 
-void main() => runApp(TabBarDemo());
+void main() => runApp(TabBarMyApp());
 
-class TabBarDemo extends StatelessWidget {
+class TabBarMyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    /*
-    return MaterialApp(
-      title: 'Awesome title',
-      theme: ThemeData(
-        primarySwatch: Colors.green,
-      ),
-      home: DefaultTabController(
-        length: 3,
-        child: Scaffold(
-          appBar: AppBar(
-            bottom: TabBar(
-                tabs: [
-                  Tab(icon: Icon(Icons.list)),
-                  Tab(icon: Icon(Icons.people)),
-                  Tab(icon: Icon(Icons.flag)),
-                ]
-            ),
-            title: Text('Pankajärvi Olympics'),
-          ),
-          body: TabBarView(
-            children: [
-              BlocProvider<SportBloc>(
-                create: (context) => SportBloc(),
-                child: SportList(),
-              ),
-              Icon(Icons.directions_transit),
-              Icon(Icons.directions_bike),
-            ],
-          ),
-        ),
-      )
-    );
-
-     */
-
     return MultiBlocProvider(
       providers: [
         BlocProvider(
