@@ -21,6 +21,7 @@ class _SportListState extends State<SportList> {
   @override
   void initState() {
     super.initState();
+
     DatabaseProvider.db.getSports().then(
       (sportList) {
         BlocProvider.of<SportBloc>(context).add(SetSports(sportList));
@@ -95,7 +96,7 @@ class _SportListState extends State<SportList> {
               itemBuilder: (BuildContext context, int index) {
                 Sport sport = sportList[index];
                 return ListTile(
-                    title: Text("${index + 1}. ${sport.name} id: ${sport.id}",
+                    title: Text("${index + 1}. ${sport.name}",
                         style: TextStyle(fontSize: 30)),
                     subtitle: Text(
                       "Tyyppi: ${sport.isHigh == 1 ? 'Pisteet / Pituus' : 'Aika'}",
