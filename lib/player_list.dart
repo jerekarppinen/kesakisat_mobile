@@ -19,7 +19,7 @@ class _PlayerListState extends State<PlayerList> {
   void initState() {
     super.initState();
     DatabaseProvider.db.getPlayers().then(
-          (playerList) {
+      (playerList) {
         BlocProvider.of<PlayerBloc>(context).add(SetPlayers(playerList));
       },
     );
@@ -36,13 +36,15 @@ class _PlayerListState extends State<PlayerList> {
             onPressed: () => Navigator.pushReplacement(
               context,
               MaterialPageRoute(
-                builder: (context) => PlayerForm(player: player, playerIndex: index),
+                builder: (context) =>
+                    PlayerForm(player: player, playerIndex: index),
               ),
             ),
             child: Text("Päivitä"),
           ),
           FlatButton(
-            onPressed: () => DatabaseProvider.db.deletePlayer(player.id).then((_) {
+            onPressed: () =>
+                DatabaseProvider.db.deletePlayer(player.id).then((_) {
               BlocProvider.of<PlayerBloc>(context).add(
                 DeletePlayer(index),
               );
@@ -61,22 +63,27 @@ class _PlayerListState extends State<PlayerList> {
 
   @override
   Widget build(BuildContext context) {
-    print("Building entire sport list scaffold");
     return Scaffold(
       appBar: AppBar(title: Text("Pelaajat")),
       body: Container(
         child: BlocConsumer<PlayerBloc, List<Player>>(
           builder: (context, playerList) {
+            if (playerList.length == 0) {
+              return Center(
+                child: Text("Ei pelaajia.", style: TextStyle(fontSize: 30)),
+              );
+            }
             return ListView.separated(
               itemBuilder: (BuildContext context, int index) {
-
                 Player player = playerList[index];
                 return ListTile(
-                    title: Text("${index + 1}. ${player.name}", style: TextStyle(fontSize: 30)),
+                    title: Text("${index + 1}. ${player.name}",
+                        style: TextStyle(fontSize: 30)),
                     onTap: () => showPlayerDialog(context, player, index));
               },
               itemCount: playerList.length,
-              separatorBuilder: (BuildContext context, int index) => Divider(color: Colors.black),
+              separatorBuilder: (BuildContext context, int index) =>
+                  Divider(color: Colors.black),
             );
           },
           listener: (BuildContext context, sportList) {},

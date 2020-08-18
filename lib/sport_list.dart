@@ -22,7 +22,7 @@ class _SportListState extends State<SportList> {
   void initState() {
     super.initState();
     DatabaseProvider.db.getSports().then(
-          (sportList) {
+      (sportList) {
         BlocProvider.of<SportBloc>(context).add(SetSports(sportList));
       },
     );
@@ -43,7 +43,7 @@ class _SportListState extends State<SportList> {
               ),
             ),
             child: Text(
-                "Pelaa",
+              "Pelaa",
               style: TextStyle(fontSize: 25, color: Colors.green),
             ),
           ),
@@ -51,11 +51,12 @@ class _SportListState extends State<SportList> {
             onPressed: () => Navigator.pushReplacement(
               context,
               MaterialPageRoute(
-                builder: (context) => SportForm(sport: sport, sportIndex: index),
+                builder: (context) =>
+                    SportForm(sport: sport, sportIndex: index),
               ),
             ),
             child: Text(
-                "Päivitä",
+              "Päivitä",
             ),
           ),
           FlatButton(
@@ -80,17 +81,22 @@ class _SportListState extends State<SportList> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          title: Text("Lajit"),
+        title: Text("Lajit"),
       ),
       body: Container(
         child: BlocConsumer<SportBloc, List<Sport>>(
           builder: (context, sportList) {
+            if (sportList.length == 0) {
+              return Center(
+                child: Text("Ei lajeja.", style: TextStyle(fontSize: 30)),
+              );
+            }
             return ListView.separated(
               itemBuilder: (BuildContext context, int index) {
-
                 Sport sport = sportList[index];
                 return ListTile(
-                    title: Text("${index + 1}. ${sport.name} id: ${sport.id}", style: TextStyle(fontSize: 30)),
+                    title: Text("${index + 1}. ${sport.name} id: ${sport.id}",
+                        style: TextStyle(fontSize: 30)),
                     subtitle: Text(
                       "Tyyppi: ${sport.isHigh == 1 ? 'Pisteet / Pituus' : 'Aika'}",
                       style: TextStyle(fontSize: 20),
@@ -98,7 +104,8 @@ class _SportListState extends State<SportList> {
                     onTap: () => showSportDialog(context, sport, index));
               },
               itemCount: sportList.length,
-              separatorBuilder: (BuildContext context, int index) => Divider(color: Colors.black),
+              separatorBuilder: (BuildContext context, int index) =>
+                  Divider(color: Colors.black),
             );
           },
           listener: (BuildContext context, sportList) {},
