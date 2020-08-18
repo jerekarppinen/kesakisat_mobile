@@ -207,14 +207,15 @@ class DatabaseProvider {
     return scoreList;
   }
 
+  Future<bool> deleteScoresAndResults() async {
+    final db = await database;
+    var tableScore = await db.delete(TABLE_SCORE);
+    var tableResults = await db.delete(TABLE_SPORT_RESULTS);
+    return (tableResults == 1 && tableScore == 1);
+  }
+
   Future<List<Result>> getResults() async {
     final db = await database;
-
-    /*
-    var results = await db
-        .query(TABLE_SCORE, columns: [SCORE_PLAYER_ID, SCORE_SPORT_ID, SCORE_POINTS, SCORE_SCORE]);
-    */
-
     var results = await db.rawQuery("SELECT "
                                         "$SCORE_PLAYER_ID, $SCORE_SPORT_ID, $SCORE_POINTS, $SCORE_SCORE, players.name AS player_name, sports.name AS sportName "
                                     "FROM $TABLE_SCORE "

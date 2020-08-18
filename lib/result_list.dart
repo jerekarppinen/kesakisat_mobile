@@ -1,6 +1,7 @@
 import 'dart:collection';
 
 import 'package:flutter/material.dart';
+import 'package:kesakisat_mobile/db/database_provider.dart';
 import 'package:kesakisat_mobile/services/score_service.dart';
 
 class ResultList extends StatefulWidget {
@@ -21,13 +22,38 @@ class _ResultListState extends State<ResultList> {
     super.initState();
   }
 
-  Widget getFloatingActionButton() {
-    if (!_showFloatingActionButton) return Container();
-    return FloatingActionButton.extended(
-      label: Text("Tyhjennä"),
-      icon: Icon(Icons.delete),
-      onPressed: () { print("pressed!"); },
-      backgroundColor: Colors.red,
+  showAlertDialog(BuildContext context) {
+    // set up the buttons
+    Widget cancelButton = FlatButton(
+      child: Text("Peruuta"),
+      onPressed:  () {
+        Navigator.pop(context);
+      },
+    );
+    Widget continueButton = FlatButton(
+      child: Text("Jatka"),
+      onPressed:  () {
+        DatabaseProvider.db.deleteScoresAndResults().then((result) {
+          Navigator.pop(context);
+          setState(() {});
+        });
+      },
+    );
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text("Varoitus"),
+      content: Text("Tämä poistaa kaikki merkatut pisteet"),
+      actions: [
+        cancelButton,
+        continueButton,
+      ],
+    );
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
     );
   }
 
@@ -92,7 +118,14 @@ class _ResultListState extends State<ResultList> {
           },
         )
       ),
-      floatingActionButton: getFloatingActionButton(),
+      floatingActionButton: FloatingActionButton.extended(
+        label: Text("Tyhjennä"),
+        icon: Icon(Icons.delete),
+        onPressed: () {
+          showAlertDialog(context);
+          },
+        backgroundColor: Colors.red,
+      ),
     );
   }
 }
