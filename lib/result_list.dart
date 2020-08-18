@@ -42,7 +42,7 @@ class _ResultListState extends State<ResultList> {
     // set up the AlertDialog
     AlertDialog alert = AlertDialog(
       title: Text("Varoitus"),
-      content: Text("Tämä poistaa kaikki merkatut pisteet"),
+      content: Text("Tämä poistaa kaikki merkatut pisteet."),
       actions: [
         cancelButton,
         continueButton,

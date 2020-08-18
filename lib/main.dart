@@ -11,6 +11,9 @@ import 'sport_list.dart';
 void main() => runApp(TabBarMyApp());
 
 class TabBarMyApp extends StatelessWidget {
+
+  final String appName = "Kesäkisat Mobile";
+
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
@@ -27,7 +30,8 @@ class TabBarMyApp extends StatelessWidget {
         ),
       ],
       child: MaterialApp(
-        title: 'Pankajärvi Olympics',
+        debugShowCheckedModeBanner: false,
+        title: appName,
         theme: ThemeData(
           primarySwatch: Colors.blueGrey,
         ),
@@ -42,7 +46,7 @@ class TabBarMyApp extends StatelessWidget {
                   Tab(icon: Icon(Icons.flag)),
                 ],
               ),
-              title: Text('Pankajärvi Olympics'),
+              title: Text(appName),
             ),
             body: TabBarView(
               children: [
