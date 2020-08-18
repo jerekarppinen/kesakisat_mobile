@@ -7,7 +7,8 @@ import 'package:kesakisat_mobile/events/update_sport.dart';
 import 'package:kesakisat_mobile/models/sport.dart';
 
 class SportBloc extends Bloc<SportEvent, List<Sport>> {
-  @override
+  SportBloc(List<Sport> initialState) : super();
+
   List<Sport> get initialState => List<Sport>();
 
   @override

@@ -17,12 +17,12 @@ class TabBarMyApp extends StatelessWidget {
       providers: [
         BlocProvider(
           create: (BuildContext context) {
-            return PlayerBloc();
+            return PlayerBloc([]);
           },
         ),
         BlocProvider(
             create: (BuildContext context) {
-              return SportBloc();
+              return SportBloc([]);
             }
         ),
       ],

@@ -1,5 +1,3 @@
-import 'package:kesakisat_mobile/models/score.dart';
-
 class Result {
   int sportId;
   int playerId;

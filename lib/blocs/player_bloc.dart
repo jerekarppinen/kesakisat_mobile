@@ -7,7 +7,8 @@ import 'package:kesakisat_mobile/events/update_player.dart';
 import 'package:kesakisat_mobile/models/player.dart';
 
 class PlayerBloc extends Bloc<PlayerEvent, List<Player>> {
-  @override
+  PlayerBloc(List<Player> initialState) : super();
+
   List<Player> get initialState => List<Player>();
 
   @override
