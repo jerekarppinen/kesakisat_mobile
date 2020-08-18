@@ -1,11 +1,8 @@
 import 'dart:collection';
 
 import 'package:flutter/material.dart';
-import 'package:kesakisat_mobile/db/database_provider.dart';
-import 'package:kesakisat_mobile/models/result.dart';
-import 'package:kesakisat_mobile/models/score.dart';
-import "package:collection/collection.dart";
 import 'package:kesakisat_mobile/services/score_service.dart';
+import 'package:progress_dialog/progress_dialog.dart';
 
 class ResultList extends StatefulWidget {
   const ResultList({Key key}) : super(key: key);
@@ -17,20 +14,15 @@ class ResultList extends StatefulWidget {
 class _ResultListState extends State<ResultList> {
 
   ScoreService _scoreService = new ScoreService();
-  Map _scoresCalculated;
 
   @override
   void initState() {
     super.initState();
-    _scoreService.getScoresCalculated().then((score) {
-      setState(() {
-        _scoresCalculated = score;
-      });
-    });
   }
 
   @override
   Widget build(BuildContext context) {
+    final ProgressDialog pr = ProgressDialog(context);
     return Scaffold(
       appBar: AppBar(title: Text("Tulokset")),
       body: Container(
@@ -38,7 +30,15 @@ class _ResultListState extends State<ResultList> {
           future: _scoreService.getScoresCalculated(),
           builder: (BuildContext context, AsyncSnapshot<Map<String, int>> snapshot) {
             if (!snapshot.hasData) {
-              return Text("Ei tuloksia");
+              return Dialog(
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    CircularProgressIndicator(),
+                    Text("Lasketaan...")
+                  ],
+                )
+              );
             }
 
             var data = snapshot.data;
