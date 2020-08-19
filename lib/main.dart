@@ -14,6 +14,29 @@ class TabBarMyApp extends StatelessWidget {
 
   final String appName = "Kesäkisat Mobile";
 
+  final navigatorKey = GlobalKey<NavigatorState>();
+
+  showInfoDialog() {
+    final context = navigatorKey.currentState.overlay.context;
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text("Info"),
+        content: Text(
+            "Pisteiden laskenta ottaa huomioon vain numerot, ei yksikköjä esim. m, cm, sec. \n\n"
+                "Jokaisen lajin korkein pistemäärä tai hitain aika saa aina 100 pistettä, ja järjestyksessä seuraavat aina yhden vähemmän. "
+                "Samat tulokset saavat saman pistemäärän."
+        ),
+        actions: [
+          FlatButton(
+            onPressed: () => Navigator.pop(context),
+            child: Text("OK"),
+          ),
+        ]
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
@@ -30,6 +53,7 @@ class TabBarMyApp extends StatelessWidget {
         ),
       ],
       child: MaterialApp(
+        navigatorKey: navigatorKey,
         debugShowCheckedModeBanner: false,
         title: appName,
         theme: ThemeData(
@@ -46,7 +70,7 @@ class TabBarMyApp extends StatelessWidget {
                     color: Colors.white,
                   ),
                   onPressed: () {
-                    print("pressed");
+                    showInfoDialog();
                   },
                 ),
               ],
