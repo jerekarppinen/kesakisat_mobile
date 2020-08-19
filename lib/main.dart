@@ -39,6 +39,17 @@ class TabBarMyApp extends StatelessWidget {
           length: 3,
           child: Scaffold(
             appBar: AppBar(
+              actions: [
+                IconButton(
+                  icon: Icon(
+                    Icons.info_outline,
+                    color: Colors.white,
+                  ),
+                  onPressed: () {
+                    print("pressed");
+                  },
+                ),
+              ],
               bottom: TabBar(
                 tabs: [
                   Tab(icon: Icon(Icons.people)),
