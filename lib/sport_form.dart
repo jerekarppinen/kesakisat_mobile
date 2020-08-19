@@ -42,7 +42,7 @@ class PlayerFormState extends State<SportForm> {
     return TextFormField(
       initialValue: _name,
       decoration: InputDecoration(labelText: 'Nimi'),
-      maxLength: 15,
+      maxLength: 20,
       style: TextStyle(fontSize: 28),
       validator: (String value) {
         if (value.isEmpty) {

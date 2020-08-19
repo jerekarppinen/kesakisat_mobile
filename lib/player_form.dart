@@ -28,7 +28,7 @@ class PlayerFormState extends State<PlayerForm> {
     return TextFormField(
       initialValue: _name,
       decoration: InputDecoration(labelText: 'Nimi'),
-      maxLength: 15,
+      maxLength: 20,
       style: TextStyle(fontSize: 28),
       validator: (String value) {
         if (value.isEmpty) {
@@ -48,7 +48,6 @@ class PlayerFormState extends State<PlayerForm> {
     super.initState();
     if (widget.player != null) {
       _name = widget.player.name;
-      // _isHigh = widget.sport.;
     }
   }
 
