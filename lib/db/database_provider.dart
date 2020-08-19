@@ -107,7 +107,7 @@ class DatabaseProvider {
     return sportList;
   }
 
-  Future<List<Score>> getScores() async {
+  Future<List<Score>> getResults() async {
     final db = await database;
 
     var scores = await db.rawQuery(
@@ -122,7 +122,8 @@ class DatabaseProvider {
             "$TABLE_SPORT_RESULTS "
         "JOIN "
             "$TABLE_SPORTS ON $TABLE_SPORT_RESULTS.sport_id = $TABLE_SPORTS.id "
-        "JOIN $TABLE_PLAYERS ON $TABLE_SPORT_RESULTS.player_id = $TABLE_PLAYERS.id "
+        "JOIN "
+            "$TABLE_PLAYERS ON $TABLE_SPORT_RESULTS.player_id = $TABLE_PLAYERS.id "
         "ORDER BY sport_id ASC");
 
     List<Score> scoreList = List<Score>();
@@ -214,7 +215,7 @@ class DatabaseProvider {
     return (tableResults == 1 && tableScore == 1);
   }
 
-  Future<List<Result>> getResults() async {
+  Future<List<Result>> getScores() async {
     final db = await database;
     var results = await db.rawQuery(
         "SELECT "

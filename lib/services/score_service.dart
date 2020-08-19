@@ -42,17 +42,17 @@ class ScoreService {
   Future<Map<String, int>> getScoresCalculated() async {
     Map _totalPointsMap = Map<String, int>();
 
-    var scoreList = await DatabaseProvider.db.getScores();
+    var resultList = await DatabaseProvider.db.getResults();
 
     Map<String, List<Score>> groupBySportName =
-        groupBy(scoreList, (Score obj) => obj.sportName);
+        groupBy(resultList, (Score obj) => obj.sportName);
 
     _setPointsForEachPlayer(groupBySportName);
 
-    var resultList = await DatabaseProvider.db.getResults();
+    var scoreList = await DatabaseProvider.db.getScores();
 
     Map<String, List<Result>> groupByPlayer =
-        groupBy(resultList, (Result obj) => obj.playerName);
+        groupBy(scoreList, (Result obj) => obj.playerName);
 
     groupByPlayer.forEach((playerName, scores) {
       int playerPointsSum = scores.fold(0, (sum, item) => sum + item.points);
