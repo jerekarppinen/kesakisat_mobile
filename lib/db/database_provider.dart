@@ -135,8 +135,17 @@ class DatabaseProvider {
     final db = await database;
 
     var scores = await db.rawQuery(
-        "SELECT $TABLE_SPORTS.name ,$SPORT_RESULTS_COLUMN_PLAYER_ID, $SPORT_RESULTS_COLUMN_SPORT_ID, $SPORT_RESULTS_COLUMN_SCORE, $TABLE_SPORTS.is_High"
-        " FROM $TABLE_SPORT_RESULTS JOIN $TABLE_SPORTS ON $TABLE_SPORT_RESULTS.sport_id = $TABLE_SPORTS.id WHERE $TABLE_SPORT_RESULTS.sport_id = $sportId");
+        "SELECT "
+            "$TABLE_SPORTS.name,"
+            "$SPORT_RESULTS_COLUMN_PLAYER_ID,"
+            "$SPORT_RESULTS_COLUMN_SPORT_ID,"
+            "$SPORT_RESULTS_COLUMN_SCORE,"
+            "$TABLE_SPORTS.is_High "
+        "FROM "
+            "$TABLE_SPORT_RESULTS "
+        "JOIN "
+        "$TABLE_SPORTS ON $TABLE_SPORT_RESULTS.sport_id = $TABLE_SPORTS.id "
+            "WHERE $TABLE_SPORT_RESULTS.sport_id = $sportId");
 
     List<Score> scoreList = List<Score>();
     scores.forEach((currentScore) {
