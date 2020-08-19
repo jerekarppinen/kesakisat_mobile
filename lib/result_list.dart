@@ -15,8 +15,6 @@ class _ResultListState extends State<ResultList> {
 
   ScoreService _scoreService = new ScoreService();
 
-  bool _showFloatingActionButton = false;
-
   @override
   void initState() {
     super.initState();
@@ -89,10 +87,6 @@ class _ResultListState extends State<ResultList> {
             }
 
             var data = snapshot.data;
-
-            if (data.length > 0) {
-              _showFloatingActionButton = true;
-            }
 
             // https://stackoverflow.com/questions/30620546/how-to-sort-map-value
             var sortedKeys = data.keys.toList(growable:false)
