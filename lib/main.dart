@@ -14,6 +14,7 @@ class TabBarMyApp extends StatelessWidget {
 
   final String appName = "Kesäkisat Mobile";
 
+  // https://stackoverflow.com/questions/53294551/showdialog-from-root-widget
   final navigatorKey = GlobalKey<NavigatorState>();
 
   showInfoDialog() {
