@@ -33,7 +33,7 @@ class _ResultListState extends State<ResultList> {
       onPressed:  () {
         DatabaseProvider.db.deleteScoresAndResults().then((result) {
           Navigator.pop(context);
-          setState(() {});
+          setState(() {}); // Refresh the page
         });
       },
     );
