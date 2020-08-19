@@ -191,13 +191,24 @@ class DatabaseProvider {
 
   Future<List<Score>> insertScore(int playerId, int sportId, int score) async {
     final db = await database;
-    await db.rawQuery("REPLACE INTO " +
-        "$TABLE_SPORT_RESULTS ($SPORT_RESULTS_COLUMN_PLAYER_ID, $SPORT_RESULTS_COLUMN_SPORT_ID, $SPORT_RESULTS_COLUMN_SCORE)" +
+    await db.rawQuery(
+        "REPLACE INTO " +
+            "$TABLE_SPORT_RESULTS "
+                "($SPORT_RESULTS_COLUMN_PLAYER_ID, $SPORT_RESULTS_COLUMN_SPORT_ID, $SPORT_RESULTS_COLUMN_SCORE)" +
         "VALUES ($playerId, $sportId, $score)");
 
     var scores = await db.rawQuery(
-        "SELECT $TABLE_SPORTS.name ,$SPORT_RESULTS_COLUMN_PLAYER_ID, $SPORT_RESULTS_COLUMN_SPORT_ID, $SPORT_RESULTS_COLUMN_SCORE, $TABLE_SPORTS.is_High"
-        " FROM $TABLE_SPORT_RESULTS JOIN $TABLE_SPORTS ON $TABLE_SPORT_RESULTS.sport_id = $TABLE_SPORTS.id WHERE $TABLE_SPORT_RESULTS.sport_id = $sportId");
+        "SELECT "
+            "$TABLE_SPORTS.name,"
+            "$SPORT_RESULTS_COLUMN_PLAYER_ID,"
+            "$SPORT_RESULTS_COLUMN_SPORT_ID,"
+            "$SPORT_RESULTS_COLUMN_SCORE,"
+            "$TABLE_SPORTS.is_High "
+        "FROM "
+            "$TABLE_SPORT_RESULTS "
+        "JOIN $TABLE_SPORTS "
+            "ON $TABLE_SPORT_RESULTS.sport_id = $TABLE_SPORTS.id "
+            "WHERE $TABLE_SPORT_RESULTS.sport_id = $sportId");
 
     List<Score> scoreList = List<Score>();
     scores.forEach((currentScore) {
