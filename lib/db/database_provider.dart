@@ -216,11 +216,19 @@ class DatabaseProvider {
 
   Future<List<Result>> getResults() async {
     final db = await database;
-    var results = await db.rawQuery("SELECT "
-        "$SCORE_PLAYER_ID, $SCORE_SPORT_ID, $SCORE_POINTS, $SCORE_SCORE, players.name AS player_name, sports.name AS sportName "
-        "FROM $TABLE_SCORE "
+    var results = await db.rawQuery(
+        "SELECT "
+            "$SCORE_PLAYER_ID, "
+            "$SCORE_SPORT_ID, "
+            "$SCORE_POINTS, "
+            "$SCORE_SCORE, "
+            "players.name AS player_name, "
+            "sports.name AS sportName "
+        "FROM "
+            "$TABLE_SCORE "
         "JOIN players ON players.id = $TABLE_SCORE.player_id "
-        "JOIN sports ON sports.id = $TABLE_SCORE.sport_id");
+        "JOIN sports ON sports.id = $TABLE_SCORE.sport_id"
+    );
 
     List<Result> resultList = List<Result>();
 
