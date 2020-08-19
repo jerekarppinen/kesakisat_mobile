@@ -164,7 +164,7 @@ class DatabaseProvider {
     return playerList;
   }
 
-  Future<Sport> insert(Sport sport) async {
+  Future<Sport> insertSport(Sport sport) async {
     final db = await database;
     sport.id = await db.insert(TABLE_SPORTS, sport.toMap());
     return sport;

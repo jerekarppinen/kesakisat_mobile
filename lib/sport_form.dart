@@ -145,7 +145,7 @@ class PlayerFormState extends State<SportForm> {
           isHigh: _isHigh,
         );
 
-        DatabaseProvider.db.insert(sport).then(
+        DatabaseProvider.db.insertSport(sport).then(
               (storedSport) => BlocProvider.of<SportBloc>(context).add(
                 AddSport(storedSport),
               ),
