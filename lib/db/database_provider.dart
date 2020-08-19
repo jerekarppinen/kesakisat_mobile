@@ -255,9 +255,10 @@ class DatabaseProvider {
 
   Future<Result> insertResult(Result result) async {
     final db = await database;
-    await db.rawQuery("REPLACE "
-        "INTO $TABLE_SPORT_SCORE ($SCORE_PLAYER_ID, $SCORE_SPORT_ID, $SCORE_POINTS, $SCORE_SCORE) "
-        "VALUES (${result.playerId}, ${result.sportId}, ${result.points}, ${result.score})");
+    await db.rawQuery(
+        "REPLACE "
+            "INTO $TABLE_SPORT_SCORE ($SCORE_PLAYER_ID, $SCORE_SPORT_ID, $SCORE_POINTS, $SCORE_SCORE) "
+            "VALUES (${result.playerId}, ${result.sportId}, ${result.points}, ${result.score})");
     return result;
   }
 
