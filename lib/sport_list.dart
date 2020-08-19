@@ -61,7 +61,7 @@ class _SportListState extends State<SportList> {
             ),
           ),
           FlatButton(
-            onPressed: () => DatabaseProvider.db.delete(sport.id).then((_) {
+            onPressed: () => DatabaseProvider.db.deleteSport(sport.id).then((_) {
               BlocProvider.of<SportBloc>(context).add(
                 DeleteSport(index),
               );

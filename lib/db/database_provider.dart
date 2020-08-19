@@ -261,7 +261,7 @@ class DatabaseProvider {
     return result;
   }
 
-  Future<int> delete(int id) async {
+  Future<int> deleteSport(int id) async {
     final db = await database;
 
     return await db.delete(
