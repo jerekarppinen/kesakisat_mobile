@@ -35,7 +35,7 @@ class _SportListState extends State<SportList> {
       builder: (context) => AlertDialog(
         title: Text(sport.name),
         content: Text(""),
-        actions: <Widget>[
+        actions: [
           FlatButton(
             onPressed: () => Navigator.pushReplacement(
               context,

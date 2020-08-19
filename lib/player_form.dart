@@ -20,7 +20,6 @@ class PlayerForm extends StatefulWidget {
 }
 
 class PlayerFormState extends State<PlayerForm> {
-
   String _name;
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -64,7 +63,6 @@ class PlayerFormState extends State<PlayerForm> {
           ),
           onPressed: () {
             if (!_formKey.currentState.validate()) {
-              print("form");
               return;
             }
 
@@ -76,9 +74,9 @@ class PlayerFormState extends State<PlayerForm> {
 
             DatabaseProvider.db.updatePlayer(widget.player.id, _name).then(
                   (storedPlayer) => BlocProvider.of<PlayerBloc>(context).add(
-                UpdatePlayer(widget.playerIndex, player),
-              ),
-            );
+                    UpdatePlayer(widget.playerIndex, player),
+                  ),
+                );
 
             Navigator.pop(context);
           },
@@ -107,15 +105,13 @@ class PlayerFormState extends State<PlayerForm> {
 
         _formKey.currentState.save();
 
-        Player player = Player(
-          name: _name.trim()
-        );
+        Player player = Player(name: _name.trim());
 
         DatabaseProvider.db.insertPlayer(player).then(
               (storedPlayer) => BlocProvider.of<PlayerBloc>(context).add(
-            AddPlayer(storedPlayer),
-          ),
-        );
+                AddPlayer(storedPlayer),
+              ),
+            );
 
         Navigator.pop(context);
       },
@@ -125,7 +121,9 @@ class PlayerFormState extends State<PlayerForm> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(widget.player == null ? "Lisää pelaaja": "Muokkaa pelaajaa")),
+      appBar: AppBar(
+          title: Text(
+              widget.player == null ? "Lisää pelaaja" : "Muokkaa pelaajaa")),
       body: SingleChildScrollView(
         padding: const EdgeInsets.only(top: 120, left: 20, right: 20),
         //margin: EdgeInsets.all(24),
@@ -136,9 +134,7 @@ class PlayerFormState extends State<PlayerForm> {
             children: <Widget>[
               _buildName(),
               SizedBox(height: 20),
-              widget.player == null
-                  ? addPlayer()
-                  : editPlayer(),
+              widget.player == null ? addPlayer() : editPlayer(),
             ],
           ),
         ),

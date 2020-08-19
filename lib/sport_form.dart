@@ -27,7 +27,6 @@ class SportsType {
 }
 
 class PlayerFormState extends State<SportForm> {
-
   int _isHigh = 1;
 
   final _sportsOptions = [
@@ -59,19 +58,20 @@ class PlayerFormState extends State<SportForm> {
   }
 
   Widget _buildSportType() {
-
     return Column(
-      children: _sportsOptions.map((sportValue) => RadioListTile(
-        groupValue: _isHigh,
-        title: Text(sportValue._value == 'high' ? 'Pisteet / Pituus' : 'Aika'),
-        value: sportValue._key,
-        onChanged: (val) {
-          setState(() {
-            print("val: $val");
-            _isHigh = val;
-          });
-        },
-      )).toList(),
+      children: _sportsOptions
+          .map((sportValue) => RadioListTile(
+                groupValue: _isHigh,
+                title: Text(
+                    sportValue._value == 'high' ? 'Pisteet / Pituus' : 'Aika'),
+                value: sportValue._key,
+                onChanged: (val) {
+                  setState(() {
+                    _isHigh = val;
+                  });
+                },
+              ))
+          .toList(),
     );
   }
 
@@ -95,7 +95,6 @@ class PlayerFormState extends State<SportForm> {
           ),
           onPressed: () {
             if (!_formKey.currentState.validate()) {
-              print("form");
               return;
             }
 
@@ -106,11 +105,13 @@ class PlayerFormState extends State<SportForm> {
               isHigh: _isHigh,
             );
 
-            DatabaseProvider.db.update(widget.sport).then(
+            DatabaseProvider.db
+                .updateSport(widget.sport.id, _name, _isHigh)
+                .then(
                   (storedSport) => BlocProvider.of<SportBloc>(context).add(
-                UpdateSport(widget.sportIndex, sport),
-              ),
-            );
+                    UpdateSport(widget.sportIndex, sport),
+                  ),
+                );
 
             Navigator.pop(context);
           },
@@ -146,9 +147,9 @@ class PlayerFormState extends State<SportForm> {
 
         DatabaseProvider.db.insert(sport).then(
               (storedSport) => BlocProvider.of<SportBloc>(context).add(
-            AddSport(storedSport),
-          ),
-        );
+                AddSport(storedSport),
+              ),
+            );
 
         Navigator.pop(context);
       },
@@ -171,9 +172,7 @@ class PlayerFormState extends State<SportForm> {
               SizedBox(height: 16),
               _buildSportType(),
               SizedBox(height: 20),
-              widget.sport == null
-                  ? addSport()
-                  : editSport(),
+              widget.sport == null ? addSport() : editSport(),
             ],
           ),
         ),

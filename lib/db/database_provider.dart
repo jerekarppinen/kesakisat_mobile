@@ -9,7 +9,8 @@ class DatabaseProvider {
   static const String TABLE_SPORTS = "sports";
   static const String COLUMN_ID = "id";
   static const String COLUMN_NAME = "name";
-  static const String COLUMN_IS_HIGH = "is_high"; // The highest score wins in distance and in score, the lowest wins in time measured
+  static const String COLUMN_IS_HIGH =
+      "is_high"; // The highest score wins in distance and in score, the lowest wins in time measured
 
   static const String TABLE_PLAYERS = "players";
   static const String PLAYER_COLUMN_ID = "id";
@@ -32,8 +33,6 @@ class DatabaseProvider {
   Database _database;
 
   Future<Database> get database async {
-    print("database getter called");
-
     if (_database != null) {
       return _database;
     }
@@ -54,44 +53,39 @@ class DatabaseProvider {
 
         await database.execute(
           "CREATE TABLE $TABLE_SPORTS ("
-              "$COLUMN_ID INTEGER PRIMARY KEY,"
-              "$COLUMN_NAME TEXT,"
-              "$COLUMN_IS_HIGH INTEGER"
-              ")",
+          "$COLUMN_ID INTEGER PRIMARY KEY,"
+          "$COLUMN_NAME TEXT,"
+          "$COLUMN_IS_HIGH INTEGER"
+          ")",
         );
 
         print("Creating $TABLE_PLAYERS table");
 
         await database.execute(
           "CREATE TABLE $TABLE_PLAYERS ("
-              "$PLAYER_COLUMN_ID INTEGER PRIMARY KEY,"
-              "$PLAYER_COLUMN_NAME TEXT"
-              ")",
+          "$PLAYER_COLUMN_ID INTEGER PRIMARY KEY,"
+          "$PLAYER_COLUMN_NAME TEXT"
+          ")",
         );
-
 
         print("Creating $TABLE_SPORT_RESULTS table");
 
-        await database.execute(
-          "CREATE TABLE $TABLE_SPORT_RESULTS ("
-              "$SPORT_RESULTS_COLUMN_PLAYER_ID INTEGER,"
-              "$SPORT_RESULTS_COLUMN_SPORT_ID INTEGER,"
-              "$SPORT_RESULTS_COLUMN_SCORE INTEGER,"
-              "PRIMARY KEY ($SPORT_RESULTS_COLUMN_PLAYER_ID, $SPORT_RESULTS_COLUMN_SPORT_ID)"
-              ")"
-        );
+        await database.execute("CREATE TABLE $TABLE_SPORT_RESULTS ("
+            "$SPORT_RESULTS_COLUMN_PLAYER_ID INTEGER,"
+            "$SPORT_RESULTS_COLUMN_SPORT_ID INTEGER,"
+            "$SPORT_RESULTS_COLUMN_SCORE INTEGER,"
+            "PRIMARY KEY ($SPORT_RESULTS_COLUMN_PLAYER_ID, $SPORT_RESULTS_COLUMN_SPORT_ID)"
+            ")");
 
         print("Creating $TABLE_SCORE table");
 
-        await database.execute(
-            "CREATE TABLE $TABLE_SCORE ("
-                "$SCORE_PLAYER_ID INTEGER,"
-                "$SCORE_SPORT_ID INTEGER,"
-                "$SCORE_POINTS INTEGER,"
-                "$SCORE_SCORE INTEGER,"
-                "PRIMARY KEY ($SCORE_PLAYER_ID, $SCORE_SPORT_ID)"
-                ")"
-        );
+        await database.execute("CREATE TABLE $TABLE_SCORE ("
+            "$SCORE_PLAYER_ID INTEGER,"
+            "$SCORE_SPORT_ID INTEGER,"
+            "$SCORE_POINTS INTEGER,"
+            "$SCORE_SCORE INTEGER,"
+            "PRIMARY KEY ($SCORE_PLAYER_ID, $SCORE_SPORT_ID)"
+            ")");
       },
     );
   }
@@ -116,19 +110,17 @@ class DatabaseProvider {
   Future<List<Score>> getScores() async {
     final db = await database;
 
-    var scores = await db.rawQuery(
-        "SELECT "
-            "$TABLE_SPORTS.name as sportName, "
-            "$SPORT_RESULTS_COLUMN_PLAYER_ID, "
-            "$SPORT_RESULTS_COLUMN_SPORT_ID, "
-            "$SPORT_RESULTS_COLUMN_SCORE, "
-            "$TABLE_SPORTS.is_High, "
-            "$TABLE_PLAYERS.name as playerName "
-            "FROM $TABLE_SPORT_RESULTS "
-            "JOIN $TABLE_SPORTS ON $TABLE_SPORT_RESULTS.sport_id = $TABLE_SPORTS.id "
-            "JOIN $TABLE_PLAYERS ON $TABLE_SPORT_RESULTS.player_id = $TABLE_PLAYERS.id "
-            "ORDER BY sport_id ASC");
-
+    var scores = await db.rawQuery("SELECT "
+        "$TABLE_SPORTS.name as sportName, "
+        "$SPORT_RESULTS_COLUMN_PLAYER_ID, "
+        "$SPORT_RESULTS_COLUMN_SPORT_ID, "
+        "$SPORT_RESULTS_COLUMN_SCORE, "
+        "$TABLE_SPORTS.is_High, "
+        "$TABLE_PLAYERS.name as playerName "
+        "FROM $TABLE_SPORT_RESULTS "
+        "JOIN $TABLE_SPORTS ON $TABLE_SPORT_RESULTS.sport_id = $TABLE_SPORTS.id "
+        "JOIN $TABLE_PLAYERS ON $TABLE_SPORT_RESULTS.player_id = $TABLE_PLAYERS.id "
+        "ORDER BY sport_id ASC");
 
     List<Score> scoreList = List<Score>();
     scores.forEach((currentScore) {
@@ -158,8 +150,8 @@ class DatabaseProvider {
   Future<List<Player>> getPlayers() async {
     final db = await database;
 
-    var players = await db
-        .query(TABLE_PLAYERS, columns: [COLUMN_ID, COLUMN_NAME]);
+    var players =
+        await db.query(TABLE_PLAYERS, columns: [COLUMN_ID, COLUMN_NAME]);
 
     List<Player> playerList = List<Player>();
 
@@ -184,25 +176,21 @@ class DatabaseProvider {
     return player;
   }
 
-
   Future<List<Score>> insertScore(int playerId, int sportId, int score) async {
     final db = await database;
-    await db.rawQuery(
-        "REPLACE INTO " +
-            "$TABLE_SPORT_RESULTS ($SPORT_RESULTS_COLUMN_PLAYER_ID, $SPORT_RESULTS_COLUMN_SPORT_ID, $SPORT_RESULTS_COLUMN_SCORE)"
-            + "VALUES ($playerId, $sportId, $score)"
-    );
+    await db.rawQuery("REPLACE INTO " +
+        "$TABLE_SPORT_RESULTS ($SPORT_RESULTS_COLUMN_PLAYER_ID, $SPORT_RESULTS_COLUMN_SPORT_ID, $SPORT_RESULTS_COLUMN_SCORE)" +
+        "VALUES ($playerId, $sportId, $score)");
 
     var scores = await db.rawQuery(
         "SELECT $TABLE_SPORTS.name ,$SPORT_RESULTS_COLUMN_PLAYER_ID, $SPORT_RESULTS_COLUMN_SPORT_ID, $SPORT_RESULTS_COLUMN_SCORE, $TABLE_SPORTS.is_High"
-            " FROM $TABLE_SPORT_RESULTS JOIN $TABLE_SPORTS ON $TABLE_SPORT_RESULTS.sport_id = $TABLE_SPORTS.id WHERE $TABLE_SPORT_RESULTS.sport_id = $sportId");
+        " FROM $TABLE_SPORT_RESULTS JOIN $TABLE_SPORTS ON $TABLE_SPORT_RESULTS.sport_id = $TABLE_SPORTS.id WHERE $TABLE_SPORT_RESULTS.sport_id = $sportId");
 
     List<Score> scoreList = List<Score>();
     scores.forEach((currentScore) {
       Score score = Score.fromMap(currentScore);
       scoreList.add(score);
     });
-
 
     return scoreList;
   }
@@ -217,12 +205,10 @@ class DatabaseProvider {
   Future<List<Result>> getResults() async {
     final db = await database;
     var results = await db.rawQuery("SELECT "
-                                        "$SCORE_PLAYER_ID, $SCORE_SPORT_ID, $SCORE_POINTS, $SCORE_SCORE, players.name AS player_name, sports.name AS sportName "
-                                    "FROM $TABLE_SCORE "
-                                    "JOIN players ON players.id = $TABLE_SCORE.player_id "
-                                    "JOIN sports ON sports.id = $TABLE_SCORE.sport_id"
-
-    );
+        "$SCORE_PLAYER_ID, $SCORE_SPORT_ID, $SCORE_POINTS, $SCORE_SCORE, players.name AS player_name, sports.name AS sportName "
+        "FROM $TABLE_SCORE "
+        "JOIN players ON players.id = $TABLE_SCORE.player_id "
+        "JOIN sports ON sports.id = $TABLE_SCORE.sport_id");
 
     List<Result> resultList = List<Result>();
 
@@ -239,8 +225,7 @@ class DatabaseProvider {
     final db = await database;
     await db.rawQuery("REPLACE "
         "INTO $TABLE_SCORE ($SCORE_PLAYER_ID, $SCORE_SPORT_ID, $SCORE_POINTS, $SCORE_SCORE) "
-        "VALUES (${result.playerId}, ${result.sportId}, ${result.points}, ${result.score})"
-        );
+        "VALUES (${result.playerId}, ${result.sportId}, ${result.points}, ${result.score})");
     return result;
   }
 
@@ -264,8 +249,10 @@ class DatabaseProvider {
     );
   }
 
-  Future<int> update(Sport sport) async {
+  Future<int> updateSport(int sportId, String name, int isHigh) async {
     final db = await database;
+
+    Sport sport = new Sport(id: sportId, name: name, isHigh: isHigh);
 
     return await db.update(
       TABLE_SPORTS,
@@ -276,7 +263,6 @@ class DatabaseProvider {
   }
 
   Future<int> updatePlayer(int playerId, String playerName) async {
-
     Player player = new Player(id: playerId, name: playerName);
 
     final db = await database;
