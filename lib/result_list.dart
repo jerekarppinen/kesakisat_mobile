@@ -101,7 +101,7 @@ class _ResultListState extends State<ResultList> {
                 return new Column(
                   children: [
                     ListTile(
-                      title: Text("${index+1}: $key"),
+                      title: Text("$key"),
                       subtitle: Text(sortedMap[key].toString()),
                     ),
                     Divider(height: 2.0)
