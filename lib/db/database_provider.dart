@@ -7,9 +7,9 @@ import 'package:sqflite/sqflite.dart';
 
 class DatabaseProvider {
   static const String TABLE_SPORTS = "sports";
-  static const String COLUMN_ID = "id";
-  static const String COLUMN_NAME = "name";
-  static const String COLUMN_IS_HIGH =
+  static const String SPORTS_COLUMN_ID = "id";
+  static const String SPORTS_COLUMN_NAME = "name";
+  static const String SPORTS_COLUMN_IS_HIGH =
       "is_high"; // The highest score wins in distance and in score, the lowest wins in time measured
 
   static const String TABLE_PLAYERS = "players";
@@ -21,7 +21,7 @@ class DatabaseProvider {
   static const String SPORT_RESULTS_COLUMN_SPORT_ID = "sport_id";
   static const String SPORT_RESULTS_COLUMN_SCORE = "score";
 
-  static const String TABLE_SCORE = "score";
+  static const String TABLE_SPORT_SCORE = "sport_scores";
   static const String SCORE_SPORT_ID = "sport_id";
   static const String SCORE_PLAYER_ID = "player_id";
   static const String SCORE_POINTS = "points";
@@ -53,9 +53,9 @@ class DatabaseProvider {
 
         await database.execute(
           "CREATE TABLE $TABLE_SPORTS ("
-          "$COLUMN_ID INTEGER PRIMARY KEY,"
-          "$COLUMN_NAME TEXT,"
-          "$COLUMN_IS_HIGH INTEGER"
+          "$SPORTS_COLUMN_ID INTEGER PRIMARY KEY,"
+          "$SPORTS_COLUMN_NAME TEXT,"
+          "$SPORTS_COLUMN_IS_HIGH INTEGER"
           ")",
         );
 
@@ -77,9 +77,9 @@ class DatabaseProvider {
             "PRIMARY KEY ($SPORT_RESULTS_COLUMN_PLAYER_ID, $SPORT_RESULTS_COLUMN_SPORT_ID)"
             ")");
 
-        print("Creating $TABLE_SCORE table");
+        print("Creating $TABLE_SPORT_SCORE table");
 
-        await database.execute("CREATE TABLE $TABLE_SCORE ("
+        await database.execute("CREATE TABLE $TABLE_SPORT_SCORE ("
             "$SCORE_PLAYER_ID INTEGER,"
             "$SCORE_SPORT_ID INTEGER,"
             "$SCORE_POINTS INTEGER,"
@@ -94,7 +94,7 @@ class DatabaseProvider {
     final db = await database;
 
     var sports = await db
-        .query(TABLE_SPORTS, columns: [COLUMN_ID, COLUMN_NAME, COLUMN_IS_HIGH]);
+        .query(TABLE_SPORTS, columns: [SPORTS_COLUMN_ID, SPORTS_COLUMN_NAME, SPORTS_COLUMN_IS_HIGH]);
 
     List<Sport> sportList = List<Sport>();
 
@@ -163,7 +163,7 @@ class DatabaseProvider {
     final db = await database;
 
     var players =
-        await db.query(TABLE_PLAYERS, columns: [COLUMN_ID, COLUMN_NAME]);
+        await db.query(TABLE_PLAYERS, columns: [SPORTS_COLUMN_ID, SPORTS_COLUMN_NAME]);
 
     List<Player> playerList = List<Player>();
 
@@ -209,7 +209,7 @@ class DatabaseProvider {
 
   Future<bool> deleteScoresAndResults() async {
     final db = await database;
-    var tableScore = await db.delete(TABLE_SCORE);
+    var tableScore = await db.delete(TABLE_SPORT_SCORE);
     var tableResults = await db.delete(TABLE_SPORT_RESULTS);
     return (tableResults == 1 && tableScore == 1);
   }
@@ -225,9 +225,9 @@ class DatabaseProvider {
             "players.name AS player_name, "
             "sports.name AS sportName "
         "FROM "
-            "$TABLE_SCORE "
-        "JOIN players ON players.id = $TABLE_SCORE.player_id "
-        "JOIN sports ON sports.id = $TABLE_SCORE.sport_id"
+            "$TABLE_SPORT_SCORE "
+        "JOIN players ON players.id = $TABLE_SPORT_SCORE.player_id "
+        "JOIN sports ON sports.id = $TABLE_SPORT_SCORE.sport_id"
     );
 
     List<Result> resultList = List<Result>();
@@ -244,7 +244,7 @@ class DatabaseProvider {
   Future<Result> insertResult(Result result) async {
     final db = await database;
     await db.rawQuery("REPLACE "
-        "INTO $TABLE_SCORE ($SCORE_PLAYER_ID, $SCORE_SPORT_ID, $SCORE_POINTS, $SCORE_SCORE) "
+        "INTO $TABLE_SPORT_SCORE ($SCORE_PLAYER_ID, $SCORE_SPORT_ID, $SCORE_POINTS, $SCORE_SCORE) "
         "VALUES (${result.playerId}, ${result.sportId}, ${result.points}, ${result.score})");
     return result;
   }

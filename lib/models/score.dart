@@ -30,7 +30,7 @@ class Score {
     playerId = map[DatabaseProvider.SPORT_RESULTS_COLUMN_PLAYER_ID];
     sportId = map[DatabaseProvider.SPORT_RESULTS_COLUMN_SPORT_ID];
     score = map[DatabaseProvider.SPORT_RESULTS_COLUMN_SCORE];
-    isHigh = map[DatabaseProvider.COLUMN_IS_HIGH];
+    isHigh = map[DatabaseProvider.SPORTS_COLUMN_IS_HIGH];
     sportName = map['sportName'];
     playerName = map['playerName'];
     numberOfEntries = map['number_of_entries'];

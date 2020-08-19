@@ -12,14 +12,14 @@ class Player {
     };
 
     if (id != null) {
-      map[DatabaseProvider.COLUMN_ID] = id;
+      map[DatabaseProvider.SPORTS_COLUMN_ID] = id;
     }
 
     return map;
   }
 
   Player.fromMap(Map<String, dynamic> map) {
-    id = map[DatabaseProvider.COLUMN_ID];
-    name = map[DatabaseProvider.COLUMN_NAME];
+    id = map[DatabaseProvider.SPORTS_COLUMN_ID];
+    name = map[DatabaseProvider.SPORTS_COLUMN_NAME];
   }
 }
