@@ -80,7 +80,7 @@ class PlayerFormState extends State<SportForm> {
     super.initState();
     if (widget.sport != null) {
       _name = widget.sport.name;
-      // _isHigh = widget.sport.;
+      _isHigh = widget.sport.isHigh;
     }
   }
 
