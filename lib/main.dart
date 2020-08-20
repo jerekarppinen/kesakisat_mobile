@@ -25,7 +25,7 @@ class TabBarMyApp extends StatelessWidget {
         title: Text("Info"),
         content: Text(
             "Pisteiden laskenta ottaa huomioon vain numerot, ei yksikköjä esim. m, cm, sec. \n\n"
-                "Jokaisen lajin korkein pistemäärä tai hitain aika saa aina 100 pistettä, ja järjestyksessä seuraavat aina yhden vähemmän. "
+                "Jokaisen lajin paras tulos saa aina 100 pistettä, ja järjestyksessä seuraavat aina yhden vähemmän. "
                 "Samat tulokset saavat saman pistemäärän."
         ),
         actions: [
