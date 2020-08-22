@@ -33,21 +33,23 @@ class _SportListState extends State<SportList> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text(sport.name),
-        content: Text(""),
-        actions: [
-          FlatButton(
-            onPressed: () => Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(
-                builder: (context) => PlaySport(sport: sport),
-              ),
-            ),
-            child: Text(
-              "Pelaa",
-              style: TextStyle(fontSize: 25, color: Colors.green),
+        title: Text(
+          sport.name,
+          textAlign: TextAlign.center,
+        ),
+        content: FlatButton(
+          onPressed: () => Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => PlaySport(sport: sport),
             ),
           ),
+          child: Text(
+            "Pelaa",
+            style: TextStyle(fontSize: 25, color: Colors.green),
+          ),
+        ),
+        actions: [
           FlatButton(
             onPressed: () => Navigator.pushReplacement(
               context,

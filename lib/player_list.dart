@@ -29,7 +29,10 @@ class _PlayerListState extends State<PlayerList> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text(player.name),
+        title: Text(
+          player.name,
+          textAlign: TextAlign.center,
+        ),
         content: Text(""),
         actions: [
           FlatButton(
