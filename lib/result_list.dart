@@ -2,7 +2,7 @@ import 'dart:collection';
 
 import 'package:flutter/material.dart';
 import 'package:kesakisat_mobile/db/database_provider.dart';
-import 'package:kesakisat_mobile/services/score_service.dart';
+import 'package:kesakisat_mobile/services/result_service.dart';
 
 class ResultList extends StatefulWidget {
   const ResultList({Key key}) : super(key: key);
@@ -13,7 +13,7 @@ class ResultList extends StatefulWidget {
 
 class _ResultListState extends State<ResultList> {
 
-  ScoreService _scoreService = new ScoreService();
+  ResultService _resultService = new ResultService();
 
   @override
   void initState() {
@@ -61,7 +61,7 @@ class _ResultListState extends State<ResultList> {
       appBar: AppBar(title: Text("Tulokset")),
       body: Container(
         child: FutureBuilder<Map<String, int>>(
-          future: _scoreService.getScoresCalculated(),
+          future: _resultService.getResultsCalculated(),
           builder: (BuildContext context, AsyncSnapshot<Map<String, int>> snapshot) {
             if (!snapshot.hasData) {
               return Dialog(

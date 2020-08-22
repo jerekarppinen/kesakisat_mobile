@@ -73,8 +73,11 @@ class _PlaySportState extends State<PlaySport> {
                               textAlign: TextAlign.end,
                               decoration: InputDecoration(hintText: 'Tulos'),
                               onChanged: (value) => {
-                                DatabaseProvider.db.insertScore(player.id,
-                                    widget.sport.id, int.parse(value))
+                                DatabaseProvider.db.insertScore(
+                                    player.id,
+                                    widget.sport.id,
+                                    int.parse(value)
+                                )
                               },
                             ),
                           ),
