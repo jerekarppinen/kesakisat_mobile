@@ -7,6 +7,12 @@ import 'events/add_sport.dart';
 import 'events/update_sport.dart';
 import 'models/sport.dart';
 
+class SportFormValidator {
+  static String validate(String value) {
+    return value.isEmpty ? 'Nimi on pakollinen' : null;
+  }
+}
+
 class SportForm extends StatefulWidget {
   final Sport sport;
   final int sportIndex;
@@ -44,13 +50,7 @@ class PlayerFormState extends State<SportForm> {
       decoration: InputDecoration(labelText: 'Nimi'),
       maxLength: 20,
       style: TextStyle(fontSize: 28),
-      validator: (String value) {
-        if (value.isEmpty) {
-          return 'Nimi on pakollinen';
-        }
-
-        return null;
-      },
+      validator: SportFormValidator.validate,
       onSaved: (String value) {
         _name = value.trim();
       },
@@ -159,10 +159,9 @@ class PlayerFormState extends State<SportForm> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Lisää laji")),
+      appBar: AppBar(title: Text(widget.sport == null ? "Lisää laji" : "Päivitä lajia")),
       body: SingleChildScrollView(
         padding: const EdgeInsets.only(top: 120, left: 20, right: 20),
-        //margin: EdgeInsets.all(24),
         child: Form(
           key: _formKey,
           child: Column(

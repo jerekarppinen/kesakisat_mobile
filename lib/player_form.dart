@@ -7,6 +7,12 @@ import 'package:kesakisat_mobile/models/player.dart';
 
 import 'db/database_provider.dart';
 
+class PlayerFormValidator {
+  static String validate(String value) {
+    return value.isEmpty ? 'Nimi on pakollinen' : null;
+  }
+}
+
 class PlayerForm extends StatefulWidget {
   final Player player;
   final int playerIndex;
@@ -30,13 +36,7 @@ class PlayerFormState extends State<PlayerForm> {
       decoration: InputDecoration(labelText: 'Nimi'),
       maxLength: 20,
       style: TextStyle(fontSize: 28),
-      validator: (String value) {
-        if (value.isEmpty) {
-          return 'Nimi on pakollinen';
-        }
-
-        return null;
-      },
+      validator: PlayerFormValidator.validate,
       onSaved: (String value) {
         _name = value;
       },
