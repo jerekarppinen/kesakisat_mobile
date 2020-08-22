@@ -284,10 +284,8 @@ class DatabaseProvider {
     );
   }
 
-  Future<int> updateSport(int sportId, String name, int isHigh) async {
+  Future<int> updateSport(Sport sport) async {
     final db = await database;
-
-    Sport sport = new Sport(id: sportId, name: name, isHigh: isHigh);
 
     return await db.update(
       TABLE_SPORTS,

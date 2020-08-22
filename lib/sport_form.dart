@@ -101,12 +101,13 @@ class PlayerFormState extends State<SportForm> {
             _formKey.currentState.save();
 
             Sport sport = Sport(
+              id: widget.sport.id,
               name: _name,
               isHigh: _isHigh,
             );
 
             DatabaseProvider.db
-                .updateSport(widget.sport.id, _name, _isHigh)
+                .updateSport(sport)
                 .then(
                   (storedSport) => BlocProvider.of<SportBloc>(context).add(
                     UpdateSport(widget.sportIndex, sport),
