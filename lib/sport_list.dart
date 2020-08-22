@@ -38,6 +38,12 @@ class _SportListState extends State<SportList> {
           textAlign: TextAlign.center,
         ),
         content: FlatButton(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20.0),
+            side: BorderSide(color: Colors.white)
+          ),
+          color: Colors.green,
+          textColor: Colors.white,
           onPressed: () => Navigator.pushReplacement(
             context,
             MaterialPageRoute(
@@ -46,7 +52,7 @@ class _SportListState extends State<SportList> {
           ),
           child: Text(
             "Pelaa",
-            style: TextStyle(fontSize: 25, color: Colors.green),
+            style: TextStyle(fontSize: 20),
           ),
         ),
         actions: [
