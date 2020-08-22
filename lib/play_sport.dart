@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kesakisat_mobile/blocs/player_bloc.dart';
 import 'package:kesakisat_mobile/models/player.dart';
@@ -66,7 +67,9 @@ class _PlaySportState extends State<PlaySport> {
                         children: [
                           Expanded(
                             flex: 3,
-                            child: TextField(
+                            child: TextFormField(
+                              keyboardType: TextInputType.number,
+                              inputFormatters: [WhitelistingTextInputFormatter.digitsOnly],
                               controller: TextEditingController()
                                 ..text =
                                     _score == null ? '' : _score.toString(),

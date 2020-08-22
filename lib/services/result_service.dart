@@ -26,7 +26,8 @@ class ResultService {
             sportId: score.sportId,
             playerId: score.playerId,
             points: startPoints,
-            score: score.score);
+            score: score.score
+        );
 
         DatabaseProvider.db.insertResult(result);
 
@@ -54,8 +55,8 @@ class ResultService {
     Map<String, List<Result>> groupByPlayer =
         groupBy(resultList, (Result obj) => obj.playerName);
 
-    groupByPlayer.forEach((playerName, scores) {
-      int playerPointsSum = scores.fold(0, (sum, item) => sum + item.points);
+    groupByPlayer.forEach((playerName, results) {
+      int playerPointsSum = results.fold(0, (sum, item) => sum + item.points);
       _totalPointsMap.putIfAbsent(playerName, () => playerPointsSum);
     });
 
