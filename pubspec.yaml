@@ -29,8 +29,15 @@ dependencies:
   cupertino_icons: ^0.1.2
 
 dev_dependencies:
+  flutter_launcher_icons:
   flutter_test:
     sdk: flutter
+
+flutter_icons:
+  image_path: 'assets/kesakisat_icon.png'
+  android: "launcher_icon"
+  ios: true
+
 
 
 # For information on the generic Dart part of this file, see the
