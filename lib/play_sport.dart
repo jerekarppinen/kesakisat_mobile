@@ -42,7 +42,9 @@ class _PlaySportState extends State<PlaySport> {
     return Scaffold(
         appBar: AppBar(
             title: Text(
-                "${widget.sport.name}, ${widget.sport.isHigh == 1 ? 'Pisteet / Pituus' : 'Aika'}")),
+                "${widget.sport.name}, ${widget.sport.isHigh == 1 ? 'Pisteet / Pituus' : 'Aika'}"
+            )
+        ),
         body: Container(
           child: BlocConsumer<PlayerBloc, List<Player>>(
             builder: (context, playerList) {

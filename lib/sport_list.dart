@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:kesakisat_mobile/models/inserted_score.dart';
 import 'package:kesakisat_mobile/models/sport.dart';
 import 'package:kesakisat_mobile/play_sport.dart';
 
@@ -18,6 +19,10 @@ class SportList extends StatefulWidget {
 }
 
 class _SportListState extends State<SportList> {
+
+  int _numberOfPlayers;
+  List<InsertedScore> _insertedScores = [];
+
   @override
   void initState() {
     super.initState();
@@ -27,6 +32,14 @@ class _SportListState extends State<SportList> {
         BlocProvider.of<SportBloc>(context).add(SetSports(sportList));
       },
     );
+
+    DatabaseProvider.db.getNumberOfScoresBySport().then((values) {
+      final int numberOfPlayers = values[0].numberOfPlayers;
+      setState(() {
+        _numberOfPlayers = numberOfPlayers;
+        _insertedScores = values;
+      });
+    });
   }
 
   showSportDialog(BuildContext context, Sport sport, int index) {
@@ -103,7 +116,18 @@ class _SportListState extends State<SportList> {
             return ListView.separated(
               itemBuilder: (BuildContext context, int index) {
                 Sport sport = sportList[index];
+                int numberOfScores = 0;
+
+                if (_insertedScores != null) {
+                  _insertedScores.forEach((element) {
+                    if(element.sportId == sport.id) {
+                      numberOfScores = element.numberOfScores;
+                    }
+                  });
+                }
+
                 return ListTile(
+                    trailing: _numberOfPlayers != null ? Text("$numberOfScores/$_numberOfPlayers") : Text(""),
                     title: Text("${index + 1}. ${sport.name}",
                         style: TextStyle(fontSize: 30)),
                     subtitle: Text(

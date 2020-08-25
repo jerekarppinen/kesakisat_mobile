@@ -1,3 +1,4 @@
+import 'package:kesakisat_mobile/models/inserted_score.dart';
 import 'package:kesakisat_mobile/models/player.dart';
 import 'package:kesakisat_mobile/models/result.dart';
 import 'package:kesakisat_mobile/models/score.dart';
@@ -133,6 +134,26 @@ class DatabaseProvider {
     });
 
     return scoreList;
+  }
+
+  Future<List<InsertedScore>> getNumberOfScoresBySport() async {
+    final db = await database;
+    var scores = await db.rawQuery(
+        "SELECT "
+            "sport_id,"
+            "COUNT(*) as number_of_scores,"
+            "(SELECT COUNT(*) FROM $TABLE_PLAYERS) as number_of_players "
+            "FROM $TABLE_SPORT_SCORE GROUP BY sport_id;"
+    );
+
+    List<InsertedScore> insertedScoreList = List<InsertedScore>();
+
+    scores.forEach((element) {
+      InsertedScore insertedScore = InsertedScore.fromMap(element);
+      insertedScoreList.add(insertedScore);
+    });
+
+    return insertedScoreList;
   }
 
   Future<List<Score>> getScoresBySport(int sportId) async {
