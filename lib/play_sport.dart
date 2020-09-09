@@ -5,7 +5,7 @@ import 'package:kesakisat_mobile/blocs/player_bloc.dart';
 import 'package:kesakisat_mobile/models/player.dart';
 import 'package:kesakisat_mobile/models/score.dart';
 import 'package:kesakisat_mobile/models/sport.dart';
-import 'package:kesakisat_mobile/services/player_state.dart';
+import 'package:kesakisat_mobile/states/player_state.dart';
 import 'db/database_provider.dart';
 import 'events/set_players.dart';
 

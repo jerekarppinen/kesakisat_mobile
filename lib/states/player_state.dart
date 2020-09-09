@@ -14,6 +14,8 @@ class PlayerInitialState extends PlayerState {
   List<Object> get props => [super.players];
 }
 
+// In real life doesn't make sense to have three identifical states
+// This is just for test demo purposes
 class PlayersSetState extends PlayerState {
   PlayersSetState({List<Player> players}) : super(players: players);
   @override

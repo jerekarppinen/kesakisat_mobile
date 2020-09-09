@@ -1,27 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kesakisat_mobile/blocs/player_bloc.dart';
+import 'package:kesakisat_mobile/db/database_provider.dart';
 import 'package:kesakisat_mobile/events/delete_player.dart';
 import 'package:kesakisat_mobile/models/player.dart';
 import 'package:kesakisat_mobile/player_form.dart';
-import 'package:kesakisat_mobile/services/player_state.dart';
-import 'db/database_provider.dart';
+import 'package:kesakisat_mobile/states/player_state.dart';
 import 'events/set_players.dart';
 
 class PlayerList extends StatefulWidget {
-  const PlayerList({Key key}) : super(key: key);
+  final DatabaseProvider provider;
+  const PlayerList({Key key, this.provider}) : super(key: key);
 
   @override
   _PlayerListState createState() => _PlayerListState();
 }
 
 class _PlayerListState extends State<PlayerList> {
+  PlayerBloc playerBloc;
   @override
   void initState() {
     super.initState();
-    DatabaseProvider.db.getPlayers().then(
+    playerBloc = BlocProvider.of<PlayerBloc>(context);
+    widget.provider.getPlayers().then(
       (playerList) {
-        BlocProvider.of<PlayerBloc>(context).add(SetPlayers(playerList));
+        playerBloc.add(SetPlayers(playerList));
       },
     );
   }
@@ -70,7 +73,8 @@ class _PlayerListState extends State<PlayerList> {
     return Scaffold(
       appBar: AppBar(title: Text("Pelaajat")),
       body: Container(
-        child: BlocConsumer<PlayerBloc, PlayerState>(
+        child: BlocBuilder<PlayerBloc, PlayerState>(
+          bloc: playerBloc,
           builder: (context, state) {
             if (state.players.length == 0) {
               return Center(
@@ -90,7 +94,6 @@ class _PlayerListState extends State<PlayerList> {
                   Divider(color: Colors.black),
             );
           },
-          listener: (BuildContext context, sportList) {},
         ),
       ),
       floatingActionButton: FloatingActionButton(

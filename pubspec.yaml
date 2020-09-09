@@ -1,5 +1,5 @@
 name: kesakisat_mobile
-description: A new Flutter application.
+description: A points calculator for custom olympics
 
 # The following defines the version and build number for your application.
 # A version number is three numbers separated by dots, like 1.2.43
@@ -11,7 +11,7 @@ description: A new Flutter application.
 # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-version: 1.0.2+3
+version: 1.0.5+6
 
 environment:
   sdk: ">=2.2.0 <3.0.0"
@@ -31,6 +31,7 @@ dependencies:
 
 dev_dependencies:
   flutter_launcher_icons:
+  mockito:
   flutter_test:
     sdk: flutter
 

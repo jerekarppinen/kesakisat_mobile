@@ -5,7 +5,7 @@ import 'package:kesakisat_mobile/events/delete_player.dart';
 import 'package:kesakisat_mobile/events/set_players.dart';
 import 'package:kesakisat_mobile/events/update_player.dart';
 import 'package:kesakisat_mobile/models/player.dart';
-import 'package:kesakisat_mobile/services/player_state.dart';
+import 'package:kesakisat_mobile/states/player_state.dart';
 
 void main() {
   test('Initialize player bloc', () async {
