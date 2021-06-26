@@ -35,7 +35,7 @@ class _PlayerListState extends State<PlayerList> {
         ),
         content: Text(""),
         actions: [
-          FlatButton(
+          TextButton(
             onPressed: () => Navigator.pushReplacement(
               context,
               MaterialPageRoute(
@@ -45,7 +45,7 @@ class _PlayerListState extends State<PlayerList> {
             ),
             child: Text("Päivitä"),
           ),
-          FlatButton(
+          TextButton(
             onPressed: () =>
                 DatabaseProvider.db.deletePlayer(player.id).then((_) {
               BlocProvider.of<PlayerBloc>(context).add(
@@ -55,7 +55,7 @@ class _PlayerListState extends State<PlayerList> {
             }),
             child: Text("Poista"),
           ),
-          FlatButton(
+          TextButton(
             onPressed: () => Navigator.pop(context),
             child: Text("Peruuta"),
           ),

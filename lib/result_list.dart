@@ -12,7 +12,6 @@ class ResultList extends StatefulWidget {
 }
 
 class _ResultListState extends State<ResultList> {
-
   ResultService _resultService = new ResultService();
 
   @override
@@ -22,15 +21,15 @@ class _ResultListState extends State<ResultList> {
 
   showAlertDialog(BuildContext context) {
     // set up the buttons
-    Widget cancelButton = FlatButton(
+    Widget cancelButton = TextButton(
       child: Text("Peruuta"),
-      onPressed:  () {
+      onPressed: () {
         Navigator.pop(context);
       },
     );
-    Widget continueButton = FlatButton(
+    Widget continueButton = TextButton(
       child: Text("Jatka"),
-      onPressed:  () {
+      onPressed: () {
         DatabaseProvider.db.deleteScoresAndResults().then((result) {
           Navigator.pop(context);
           setState(() {}); // Refresh the page
@@ -60,64 +59,57 @@ class _ResultListState extends State<ResultList> {
     return Scaffold(
       appBar: AppBar(title: Text("Tulokset")),
       body: Container(
-        child: FutureBuilder<Map<String, int>>(
-          future: _resultService.getResultsCalculated(),
-          builder: (BuildContext context, AsyncSnapshot<Map<String, int>> snapshot) {
-            if (!snapshot.hasData) {
-              return Dialog(
+          child: FutureBuilder<Map<String, int>>(
+        future: _resultService.getResultsCalculated(),
+        builder:
+            (BuildContext context, AsyncSnapshot<Map<String, int>> snapshot) {
+          if (!snapshot.hasData) {
+            return Dialog(
                 child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    CircularProgressIndicator(),
-                    Text("Lasketaan...")
-                  ],
-                )
+              mainAxisSize: MainAxisSize.min,
+              children: [CircularProgressIndicator(), Text("Lasketaan...")],
+            ));
+          }
+
+          if (snapshot.data.length == 0) {
+            return Center(
+                child: Text(
+              "Ei tuloksia",
+              style: TextStyle(fontSize: 30),
+            ));
+          }
+
+          var data = snapshot.data;
+
+          // https://stackoverflow.com/questions/30620546/how-to-sort-map-value
+          var sortedKeys = data.keys.toList(growable: false)
+            ..sort((k1, k2) => data[k2].compareTo(data[k1]));
+          LinkedHashMap sortedMap = new LinkedHashMap.fromIterable(sortedKeys,
+              key: (k) => k, value: (k) => data[k]);
+
+          return ListView.builder(
+            itemCount: sortedMap.length,
+            itemBuilder: (BuildContext context, int index) {
+              String key = sortedMap.keys.elementAt(index);
+              return new Column(
+                children: [
+                  ListTile(
+                    title: Text("$key"),
+                    subtitle: Text(sortedMap[key].toString()),
+                  ),
+                  Divider(height: 2.0)
+                ],
               );
-            }
-
-            if (snapshot.data.length == 0) {
-              return Center(
-                  child: Text(
-                      "Ei tuloksia",
-                    style: TextStyle(
-                      fontSize: 30
-                    ),
-                  )
-              );
-            }
-
-            var data = snapshot.data;
-
-            // https://stackoverflow.com/questions/30620546/how-to-sort-map-value
-            var sortedKeys = data.keys.toList(growable:false)
-              ..sort((k1, k2) => data[k2].compareTo(data[k1]));
-            LinkedHashMap sortedMap = new LinkedHashMap
-                .fromIterable(sortedKeys, key: (k) => k, value: (k) => data[k]);
-
-            return ListView.builder(
-              itemCount: sortedMap.length,
-              itemBuilder: (BuildContext context, int index) {
-                String key = sortedMap.keys.elementAt(index);
-                return new Column(
-                  children: [
-                    ListTile(
-                      title: Text("$key"),
-                      subtitle: Text(sortedMap[key].toString()),
-                    ),
-                    Divider(height: 2.0)
-                  ],
-                );
-              },
-            );
-          },
-        )
-      ),
+            },
+          );
+        },
+      )),
       floatingActionButton: FloatingActionButton.extended(
         label: Text("Tyhjennä"),
         icon: Icon(Icons.delete),
         onPressed: () {
           showAlertDialog(context);
-          },
+        },
         backgroundColor: Colors.red,
       ),
     );

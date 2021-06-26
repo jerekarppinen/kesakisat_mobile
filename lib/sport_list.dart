@@ -39,9 +39,8 @@ class _SportListState extends State<SportList> {
         ),
         content: FlatButton(
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20.0),
-            side: BorderSide(color: Colors.white)
-          ),
+              borderRadius: BorderRadius.circular(20.0),
+              side: BorderSide(color: Colors.white)),
           color: Colors.green,
           textColor: Colors.white,
           onPressed: () => Navigator.pushReplacement(
@@ -56,7 +55,7 @@ class _SportListState extends State<SportList> {
           ),
         ),
         actions: [
-          FlatButton(
+          TextButton(
             onPressed: () => Navigator.pushReplacement(
               context,
               MaterialPageRoute(
@@ -68,8 +67,9 @@ class _SportListState extends State<SportList> {
               "Päivitä",
             ),
           ),
-          FlatButton(
-            onPressed: () => DatabaseProvider.db.deleteSport(sport.id).then((_) {
+          TextButton(
+            onPressed: () =>
+                DatabaseProvider.db.deleteSport(sport.id).then((_) {
               BlocProvider.of<SportBloc>(context).add(
                 DeleteSport(index),
               );
@@ -77,7 +77,7 @@ class _SportListState extends State<SportList> {
             }),
             child: Text("Poista"),
           ),
-          FlatButton(
+          TextButton(
             onPressed: () => Navigator.pop(context),
             child: Text("Peruuta"),
           ),

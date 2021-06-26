@@ -4,14 +4,12 @@ import 'package:kesakisat_mobile/blocs/player_bloc.dart';
 import 'package:kesakisat_mobile/player_list.dart';
 import 'package:kesakisat_mobile/result_list.dart';
 
-
 import 'blocs/sport_bloc.dart';
 import 'sport_list.dart';
 
 void main() => runApp(TabBarMyApp());
 
 class TabBarMyApp extends StatelessWidget {
-
   final String appName = "Kesäkisat Mobile";
 
   // https://stackoverflow.com/questions/53294551/showdialog-from-root-widget
@@ -22,19 +20,17 @@ class TabBarMyApp extends StatelessWidget {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text("Info"),
-        content: Text(
-            "Pisteiden laskenta ottaa huomioon vain numerot, ei yksikköjä esim. m, cm, sec. \n\n"
-                "Jokaisen lajin paras tulos saa aina 100 pistettä, ja järjestyksessä seuraavat aina yhden vähemmän. "
-                "Samat tulokset saavat saman pistemäärän."
-        ),
-        actions: [
-          FlatButton(
-            onPressed: () => Navigator.pop(context),
-            child: Text("OK"),
-          ),
-        ]
-      ),
+          title: Text("Info"),
+          content: Text(
+              "Pisteiden laskenta ottaa huomioon vain numerot, ei yksikköjä esim. m, cm, sec. \n\n"
+              "Jokaisen lajin paras tulos saa aina 100 pistettä, ja järjestyksessä seuraavat aina yhden vähemmän. "
+              "Samat tulokset saavat saman pistemäärän."),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: Text("OK"),
+            ),
+          ]),
     );
   }
 
@@ -47,11 +43,9 @@ class TabBarMyApp extends StatelessWidget {
             return PlayerBloc([]);
           },
         ),
-        BlocProvider(
-            create: (BuildContext context) {
-              return SportBloc([]);
-            }
-        ),
+        BlocProvider(create: (BuildContext context) {
+          return SportBloc([]);
+        }),
       ],
       child: MaterialApp(
         navigatorKey: navigatorKey,
