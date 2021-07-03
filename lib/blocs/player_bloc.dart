@@ -5,30 +5,31 @@ import 'package:kesakisat_mobile/events/player_event.dart';
 import 'package:kesakisat_mobile/events/set_players.dart';
 import 'package:kesakisat_mobile/events/update_player.dart';
 import 'package:kesakisat_mobile/models/player.dart';
+import 'package:kesakisat_mobile/states/player_state.dart';
 
-class PlayerBloc extends Bloc<PlayerEvent, List<Player>> {
-  PlayerBloc(List<Player> initialState) : super();
+class PlayerBloc extends Bloc<PlayerEvent, PlayerState> {
+  PlayerBloc() : super();
 
-  List<Player> get initialState => List<Player>();
+  PlayerState get initialState => PlayerInitialState();
 
   @override
-  Stream<List<Player>> mapEventToState(PlayerEvent event) async* {
+  Stream<PlayerState> mapEventToState(PlayerEvent event) async* {
     if (event is SetPlayers) {
-      yield event.playerList;
+      yield PlayersSetState(players: event.playerList);
     } else if (event is AddPlayer) {
-      List<Player> newState = List.from(state);
+      List<Player> players = state.players;
       if (event.newPlayer != null) {
-        newState.add(event.newPlayer);
+        players.add(event.newPlayer);
+        yield PlayersSetState(players: players);
       }
-      yield newState;
     } else if (event is DeletePlayer) {
-      List<Player> newState = List.from(state);
-      newState.removeAt(event.playerIndex);
-      yield newState;
+      List<Player> players = state.players;
+      players.removeAt(event.playerIndex);
+      yield PlayerDeletedState(players: players);
     } else if (event is UpdatePlayer) {
-      List<Player> newState = List.from(state);
-      newState[event.playerIndex] = event.newPlayer;
-      yield newState;
+      List<Player> players = state.players;
+      players[event.playerIndex] = event.newPlayer;
+      yield PlayerUpdatedState(players: players);
     }
   }
 }
