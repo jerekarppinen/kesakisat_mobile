@@ -5,6 +5,7 @@ import 'package:kesakisat_mobile/blocs/player_bloc.dart';
 import 'package:kesakisat_mobile/models/player.dart';
 import 'package:kesakisat_mobile/models/score.dart';
 import 'package:kesakisat_mobile/models/sport.dart';
+import 'package:kesakisat_mobile/states/player_state.dart';
 import 'db/database_provider.dart';
 import 'events/set_players.dart';
 
@@ -44,11 +45,11 @@ class _PlaySportState extends State<PlaySport> {
             title: Text(
                 "${widget.sport.name}, ${widget.sport.isHigh == 1 ? 'Pisteet / Pituus' : 'Aika'}")),
         body: Container(
-          child: BlocConsumer<PlayerBloc, List<Player>>(
-            builder: (context, playerList) {
+          child: BlocConsumer<PlayerBloc, PlayerState>(
+            builder: (context, state) {
               return ListView.separated(
                 itemBuilder: (BuildContext context, int index) {
-                  Player player = playerList[index];
+                  Player player = state.players[index];
 
                   int _score;
                   _scoreList.forEach((value) {
@@ -69,18 +70,17 @@ class _PlaySportState extends State<PlaySport> {
                             flex: 3,
                             child: TextFormField(
                               keyboardType: TextInputType.number,
-                              inputFormatters: [WhitelistingTextInputFormatter.digitsOnly],
+                              inputFormatters: [
+                                FilteringTextInputFormatter.digitsOnly
+                              ],
                               controller: TextEditingController()
                                 ..text =
                                     _score == null ? '' : _score.toString(),
                               textAlign: TextAlign.end,
                               decoration: InputDecoration(hintText: 'Tulos'),
                               onChanged: (value) => {
-                                DatabaseProvider.db.insertScore(
-                                    player.id,
-                                    widget.sport.id,
-                                    int.parse(value)
-                                )
+                                DatabaseProvider.db.insertScore(player.id,
+                                    widget.sport.id, int.parse(value))
                               },
                             ),
                           ),
@@ -89,7 +89,7 @@ class _PlaySportState extends State<PlaySport> {
                     ),
                   );
                 },
-                itemCount: playerList.length,
+                itemCount: state.players.length,
                 separatorBuilder: (BuildContext context, int index) =>
                     Divider(color: Colors.black),
               );

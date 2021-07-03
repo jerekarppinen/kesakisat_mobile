@@ -1,6 +1,7 @@
+import 'package:equatable/equatable.dart';
 import 'package:kesakisat_mobile/db/database_provider.dart';
 
-class Player {
+class Player extends Equatable {
   int id;
   String name;
 
@@ -22,4 +23,10 @@ class Player {
     id = map[DatabaseProvider.SPORTS_COLUMN_ID];
     name = map[DatabaseProvider.SPORTS_COLUMN_NAME];
   }
+
+  @override
+  List<Object> get props => [
+        this.id,
+        this.name,
+      ];
 }
