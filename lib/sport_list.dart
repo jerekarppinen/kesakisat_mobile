@@ -55,32 +55,34 @@ class _SportListState extends State<SportList> {
           ),
         ),
         actions: [
-          TextButton(
-            onPressed: () => Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(
-                builder: (context) =>
-                    SportForm(sport: sport, sportIndex: index),
+          Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+            TextButton(
+              onPressed: () => Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) =>
+                      SportForm(sport: sport, sportIndex: index),
+                ),
+              ),
+              child: Text(
+                "Päivitä",
               ),
             ),
-            child: Text(
-              "Päivitä",
+            TextButton(
+              onPressed: () =>
+                  DatabaseProvider.db.deleteSport(sport.id).then((_) {
+                BlocProvider.of<SportBloc>(context).add(
+                  DeleteSport(index),
+                );
+                Navigator.pop(context);
+              }),
+              child: Text("Poista"),
             ),
-          ),
-          TextButton(
-            onPressed: () =>
-                DatabaseProvider.db.deleteSport(sport.id).then((_) {
-              BlocProvider.of<SportBloc>(context).add(
-                DeleteSport(index),
-              );
-              Navigator.pop(context);
-            }),
-            child: Text("Poista"),
-          ),
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: Text("Peruuta"),
-          ),
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: Text("Peruuta"),
+            ),
+          ])
         ],
       ),
     );
