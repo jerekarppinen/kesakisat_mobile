@@ -39,30 +39,32 @@ class _PlayerListState extends State<PlayerList> {
         ),
         content: Text(""),
         actions: [
-          TextButton(
-            onPressed: () => Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(
-                builder: (context) =>
-                    PlayerForm(player: player, playerIndex: index),
+          Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+            TextButton(
+              onPressed: () => Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) =>
+                      PlayerForm(player: player, playerIndex: index),
+                ),
               ),
+              child: Text("Päivitä"),
             ),
-            child: Text("Päivitä"),
-          ),
-          TextButton(
-            onPressed: () =>
-                DatabaseProvider.db.deletePlayer(player.id).then((_) {
-              BlocProvider.of<PlayerBloc>(context).add(
-                DeletePlayer(index),
-              );
-              Navigator.pop(context);
-            }),
-            child: Text("Poista"),
-          ),
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: Text("Peruuta"),
-          ),
+            TextButton(
+              onPressed: () =>
+                  DatabaseProvider.db.deletePlayer(player.id).then((_) {
+                BlocProvider.of<PlayerBloc>(context).add(
+                  DeletePlayer(index),
+                );
+                Navigator.pop(context);
+              }),
+              child: Text("Poista"),
+            ),
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: Text("Peruuta"),
+            ),
+          ])
         ],
       ),
     );
