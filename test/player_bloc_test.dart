@@ -9,7 +9,7 @@ import 'package:kesakisat_mobile/states/player_state.dart';
 
 void main() {
   test('Initialize player bloc', () async {
-    final playerBloc = PlayerBloc();
+    final playerBloc = PlayerBloc(new PlayerInitialState());
     expectLater(
       playerBloc,
       emits(
@@ -19,7 +19,7 @@ void main() {
   });
 
   test('Set empty players', () async {
-    final playerBloc = PlayerBloc();
+    final playerBloc = PlayerBloc(new PlayerInitialState());
     playerBloc.add(SetPlayers([]));
     expectLater(
       playerBloc,
@@ -33,7 +33,7 @@ void main() {
   });
 
   test('Set multiple players', () async {
-    final playerBloc = PlayerBloc();
+    final playerBloc = PlayerBloc(new PlayerInitialState());
     final players = [
       Player(id: 1, name: "eka"),
       Player(id: 2, name: "toka"),
@@ -51,7 +51,7 @@ void main() {
   });
 
   test('Delete player', () async {
-    final playerBloc = PlayerBloc();
+    final playerBloc = PlayerBloc(new PlayerInitialState());
     final players = [
       Player(id: 1, name: "eka"),
       Player(id: 2, name: "toke"),
@@ -71,7 +71,7 @@ void main() {
   });
 
   test('Update player', () async {
-    final playerBloc = PlayerBloc();
+    final playerBloc = PlayerBloc(new PlayerInitialState());
     final players = [
       Player(id: 1, name: "eka"),
       Player(id: 2, name: "toke"),

@@ -4,6 +4,7 @@ import 'package:kesakisat_mobile/blocs/player_bloc.dart';
 import 'package:kesakisat_mobile/db/database_provider.dart';
 import 'package:kesakisat_mobile/player_list.dart';
 import 'package:kesakisat_mobile/result_list.dart';
+import 'package:kesakisat_mobile/states/player_state.dart';
 
 import 'blocs/sport_bloc.dart';
 import 'sport_list.dart';
@@ -27,7 +28,7 @@ class TabBarMyApp extends StatelessWidget {
             "Jokaisen lajin paras tulos saa aina 100 pistettä, ja järjestyksessä seuraavat aina yhden vähemmän. "
             "Samat tulokset saavat saman pistemäärän."),
         actions: [
-          FlatButton(
+          TextButton(
             onPressed: () => Navigator.pop(context),
             child: Text("OK"),
           ),
@@ -42,7 +43,7 @@ class TabBarMyApp extends StatelessWidget {
       providers: [
         BlocProvider(
           create: (BuildContext context) {
-            return PlayerBloc();
+            return PlayerBloc(new PlayerInitialState());
           },
         ),
         BlocProvider(create: (BuildContext context) {

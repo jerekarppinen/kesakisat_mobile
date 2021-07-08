@@ -8,7 +8,7 @@ import 'package:kesakisat_mobile/models/player.dart';
 import 'package:kesakisat_mobile/states/player_state.dart';
 
 class PlayerBloc extends Bloc<PlayerEvent, PlayerState> {
-  PlayerBloc() : super();
+  PlayerBloc(PlayerInitialState initialState) : super(initialState);
 
   PlayerState get initialState => PlayerInitialState();
 
